@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="Allgemein">
+        <setting type="lsep" label="Allgemeines" />
+        <setting id="appearance.alt" type="action" label="Erscheinungsbild" default="-" option="close" action="RunPlugin(plugin://plugin.video.lastship/?action=artwork)" visible="!System.HasAddon(script.lastship.artwork)" />
+        <setting id="appearance.1" type="select" label="Erscheinungsbild" values="Lastship|Lastship2|Exodus|Exuary|Eigene" default="Lastship" visible="System.HasAddon(script.lastship.artwork)" />
+        <setting id="scrapers.timeout.1" type="slider" label="Zeitlimit für Indexseiten" default="60" range="10,120" option="int" />
+        <setting id="trakt.user2" type="text" label="Benutzer" visible="false" enable="false" default=""/>
+        <setting id="indicators.alt" type="enum" label="Gesehen / Fortsetzungspunkte" values="Lokal|Trakt" default="1" visible="!eq(-1,)" />
+        <setting id="indicators" type="enum" label="Gesehen / Fortsetzungspunkte" values="Lokal" default="0" visible="eq(-2,)" enable="!eq(-2,)" />
+        <setting id="api.language" type="select" label="Sprache für Informationen" values="AUTO|Bulgarian|Chinese|Croatian|Czech|Danish|Dutch|English|Finnish|French|German|Greek|Hebrew|Hungarian|Italian|Japanese|Korean|Norwegian|Polish|Portuguese|Romanian|Russian|Serbian|Slovak|Slovenian|Spanish|Swedish|Thai|Turkish|Ukrainian" default="German" visible="false" />
+        <setting id="providers.lang" type="select" label="Sprache für Indexseiten" values="German" default="German" visible="false" />
+        <setting id="fanart" type="bool" label="Fanart verwenden" default="true" />
+        <setting id="search.quick" type="enum" label="Schnelle Suche" values="Deaktiviert|Aktiviert" default="0" />
+        <setting type="lsep" label="Serien-Einstellungen" />
+        <setting id="tv.widget.alt" type="enum" label="Neue Episoden" values="Deaktiviert|Episoden|Trakt-Fortschritt|Trakt-Episoden" default="1" visible="!eq(-10,)" />
+        <setting id="tv.widget" type="enum" label="Neue Episoden" values="Deaktiviert|Episoden" default="1" visible="eq(-11,)" />
+        <setting id="tv.specials" type="bool" label="Specials / Staffel 0 unterstützen" default="false" />
+        <setting id="flatten.tvshows" type="bool" label="Serien-Staffeln reduzieren" default="false" />
+        <setting id="showunaired" type="bool" label="Noch nicht gesendete Staffeln / Episoden anzeigen" default="true" />
+        <setting id="unaired.identify" type="enum" label="Farbe für noch nicht gesendete Staffeln / Episoden" values="Blau|Rot|Gelb|Altrosa|Cyan|Grasgrün|Gold|Magenta|Gelbgrün|Ohne Farbe" default="1" />
+        <setting type="lsep" label="Film-Einstellungen" />
+        <setting id="movie.widget" type="enum" label="Neue Filme" values="Deaktiviert|Empfohlen|Aktive Betrachter|Am populärsten|In Kinos|Neue Releases" default="1" />
+        <setting id="movies.extrainfo" type="enum" label="Zusatzinfos für Filme holen" values="AUS|TMDB|TMDB und TRAKT.TV" default="1" visible="false" />
+        <setting id="hidecinema" type="bool" label="Nur Filme älter als 90 Tage anzeigen" default="false" />
+        <setting id="filter.movies.byyear" type="bool" label="Filme nach Jahrgang filtern" default="false" />
+        <setting type="text" label="[COLOR blue]Genres, FSK, Studios, Einspielergebnis, Meistbewertet, Auszeichnungen, Herkunftsland[/COLOR]" visible="eq(-1,true)" />
+        <setting id="movies.byyear.from" type="slider" label="Von" default="1980" range="1900,2018" option="int" visible="eq(-2,true)" />
+        <setting id="movies.byyear.to" type="slider" label="Bis" default="2018" range="1900,2019" option="int" visible="eq(-3,true)" />
+        <setting type="lsep" label="Untertitel" />
+        <setting id="subtitles" type="bool" label="Untertitel aktivieren" default="false" />
+        <setting id="subtitles.utf" type="bool" label="Untertitel nach UTF-8 umwandeln" visible="!eq(-1,false)" default="false" />
+        <setting id="subtitles.lang.1" type="select" label="Hauptsprache" values="Afrikaans|Albanian|Arabic|Armenian|Basque|Bengali|Bosnian|Breton|Bulgarian|Burmese|Catalan|Chinese|Croatian|Czech|Danish|Dutch|English|Esperanto|Estonian|Finnish|French|Galician|Georgian|German|Greek|Hebrew|Hindi|Hungarian|Icelandic|Indonesian|Italian|Japanese|Kazakh|Khmer|Korean|Latvian|Lithuanian|Luxembourgish|Macedonian|Malay|Malayalam|Manipuri|Mongolian|Montenegrin|Norwegian|Occitan|Persian|Polish|Portuguese|Portuguese(Brazil)|Romanian|Russian|Serbian|Sinhalese|Slovak|Slovenian|Spanish|Swahili|Swedish|Syriac|Tagalog|Tamil|Telugu|Thai|Turkish|Ukrainian|Urdu" visible="!eq(-2,false)" default="German" />
+        <setting id="subtitles.lang.2" type="select" label="Zweitsprache" values="Afrikaans|Albanian|Arabic|Armenian|Basque|Bengali|Bosnian|Breton|Bulgarian|Burmese|Catalan|Chinese|Croatian|Czech|Danish|Dutch|English|Esperanto|Estonian|Finnish|French|Galician|Georgian|German|Greek|Hebrew|Hindi|Hungarian|Icelandic|Indonesian|Italian|Japanese|Kazakh|Khmer|Korean|Latvian|Lithuanian|Luxembourgish|Macedonian|Malay|Malayalam|Manipuri|Mongolian|Montenegrin|Norwegian|Occitan|Persian|Polish|Portuguese|Portuguese(Brazil)|Romanian|Russian|Serbian|Sinhalese|Slovak|Slovenian|Spanish|Swahili|Swedish|Syriac|Tagalog|Tamil|Telugu|Thai|Turkish|Ukrainian|Urdu" visible="!eq(-3,false)" default="English" />
+        <setting type="text" label="[COLOR blue]Untertitel evtl. nicht verfügbar oder nicht synchron.[/COLOR]" visible="eq(-4,true)" />
+        <setting type="text" label="[COLOR blue]In diesem Fall eigene Untertitel verwenden.[/COLOR]" visible="eq(-5,true) "/>
+        <setting type="lsep" label="Lastship-Kontextmenü-Verwaltung" />
+        <setting id="cm.playback" type="bool" label="Abspielen mit... / Autoplay" default="true" />
+        <setting id="cm.fanart" type="bool" label="Fanart-Quelle auswählen" default="true" />
+        <setting id="cm.similiar" type="bool" label="Finde Ähnliches" default="true" />
+        <setting id="cm.poster" type="bool" label="Poster-Quelle auswählen" default="true" />
+        <setting id="cm.traktmanager" type="bool" label="Trakt-Manager" default="true" />
+        <setting id="cm.random" type="bool" label="Zufallswiedergabe" default="true" />
+        <setting id="cm.addtolibrary" type="bool" label="Zur Bibliothek hinzufügen" default="true" />
+        <setting id="cm.queue" type="bool" label="Zur Warteschlange hinzufügen" default="true" />
+        <setting type="lsep" label="Entwicklung / Debugging" />
+        <setting id="first.info" label="Info-Popup nach Update / Erstinstallation" visible="false" type="bool" default="" />
+        <setting id="DevUpdate" type="bool" label="Nightly Updates (Lastship und Resolver)" visible="false" default="false" />
+        <setting id="FaultLogger.enabled" type="bool" label="Fehlerhafte Provider erkennen" default="true" />
+        <setting id="FaultLogger.numErrors" type="slider" label="Anzahl Errors für Deaktivierung" default="5" range="1,30" visible="eq(-1,true)"  option="int" />
+        <setting id="FaultLogger.recheckHours" type="slider" label="Deaktivierten Provider überprüfen nach Stunden" default="24" range="12,72" visible="eq(-2,true)" option="int" />
+    </category>
+    <category label="Genres / Listen">
+        <setting type="lsep" label="Persönliche Genres" />
+        <setting id="PersonalMovieGenre" type="bool" label="Persönliche Film-Genres aktivieren" default="false" />
+        <setting id="PersonalMovieGenreTitle1" type="text" label="Titel Genre 1" visible="eq(-1,true)" enable="true" default=""/>
+        <setting id="PersonalMovieGenre1" type="text" label="Schlagwörter Genre 1" visible="eq(-2,true)" enable="true" default=""/>
+        <setting id="PersonalMovieGenreTitle2" type="text" label="Titel Genre 2" visible="eq(-3,true)" enable="true" default=""/>
+        <setting id="PersonalMovieGenre2" type="text" label="Schlagwörter Genre 2" visible="eq(-4,true)" enable="true" default=""/>
+        <setting id="PersonalMovieGenreTitle3" type="text" label="Titel Genre 3" visible="eq(-5,true)" enable="true" default=""/>
+        <setting id="PersonalMovieGenre3" type="text" label="Schlagwörter Genre 3" visible="eq(-6,true)" enable="true" default=""/>
+        <setting id="PersonalMovieGenreTitle4" type="text" label="Titel Genre 4" visible="eq(-7,true)" enable="true" default=""/>
+        <setting id="PersonalMovieGenre4" type="text" label="Schlagwörter Genre 4" visible="eq(-8,true)" enable="true" default=""/>
+        <setting id="PersonalMovieGenreTitle5" type="text" label="Titel Genre 5" visible="eq(-9,true)" enable="true" default=""/>
+        <setting id="PersonalMovieGenre5" type="text" label="Schlagwörter Genre 5" visible="eq(-10,true)" enable="true" default=""/>
+        <setting type="text" label="[COLOR blue]Realisiert über Schlagwort-Suche. (Englisch für bessere Ergebnisse)[/COLOR]" visible="eq(-11,true)" />
+        <setting type="text" label="[COLOR blue]Schlagwörter aus mehreren Wörtern mit - anstatt Leerzeichen schreiben.[/COLOR]" visible="eq(-12,true)" />
+        <setting type="text" label="[COLOR blue]Verschiedene Schlagwörter mit , (ohne Leerzeichen) verbinden.[/COLOR]" visible="eq(-13,true)" />
+        <setting id="PersonalTVShowGenre" type="bool" label="Persönliche Serien-Genres aktivieren" default="false" />
+        <setting id="PersonalTVShowGenreTitle1" type="text" label="Titel Genre 1" visible="eq(-1,true)" enable="true" default=""/>
+        <setting id="PersonalTVShowGenre1" type="text" label="Schlagwörter Genre 1" visible="eq(-2,true)" enable="true" default=""/>
+        <setting id="PersonalTVShowGenreTitle2" type="text" label="Titel Genre 2" visible="eq(-3,true)" enable="true" default=""/>
+        <setting id="PersonalTVShowGenre2" type="text" label="Schlagwörter Genre 2" visible="eq(-4,true)" enable="true" default=""/>
+        <setting id="PersonalTVShowGenreTitle3" type="text" label="Titel Genre 3" visible="eq(-5,true)" enable="true" default=""/>
+        <setting id="PersonalTVShowGenre3" type="text" label="Schlagwörter Genre 3" visible="eq(-6,true)" enable="true" default=""/>
+        <setting id="PersonalTVShowGenreTitle4" type="text" label="Titel Genre 4" visible="eq(-7,true)" enable="true" default=""/>
+        <setting id="PersonalTVShowGenre4" type="text" label="Schlagwörter Genre 4" visible="eq(-8,true)" enable="true" default=""/>
+        <setting id="PersonalTVShowGenreTitle5" type="text" label="Titel Genre 5" visible="eq(-9,true)" enable="true" default=""/>
+        <setting id="PersonalTVShowGenre5" type="text" label="Schlagwörter Genre 5" visible="eq(-10,true)" enable="true" default=""/>
+        <setting type="text" label="[COLOR blue]Realisiert über Schlagwort-Suche. (Englisch für bessere Ergebnisse)[/COLOR]" visible="eq(-11,true)" />
+        <setting type="text" label="[COLOR blue]Schlagwörter aus mehreren Wörtern mit - anstatt Leerzeichen schreiben.[/COLOR]" visible="eq(-12,true)" />
+        <setting type="text" label="[COLOR blue]Verschiedene Schlagwörter mit , (ohne Leerzeichen) verbinden.[/COLOR]" visible="eq(-13,true)" />
+        <setting type="lsep" label="Persönliche IMDB-Listen" />
+        <setting id="PersonalMovieList" type="bool" label="Persönliche Film-Listen aktivieren" default="false" />
+        <setting id="PersonalMovieListTitle1" type="text" label="Titel Liste 1" visible="eq(-1,true)" enable="true" default=""/>
+        <setting id="PersonalMovieList1" type="text" label="ID Liste 1" visible="eq(-2,true)" enable="true" default=""/>
+        <setting id="PersonalMovieListTitle2" type="text" label="Titel Liste 2" visible="eq(-3,true)" enable="true" default=""/>
+        <setting id="PersonalMovieList2" type="text" label="ID Liste 2" visible="eq(-4,true)" enable="true" default=""/>
+        <setting id="PersonalMovieListTitle3" type="text" label="Titel Liste 3" visible="eq(-5,true)" enable="true" default=""/>
+        <setting id="PersonalMovieList3" type="text" label="ID Liste 3" visible="eq(-6,true)" enable="true" default=""/>
+        <setting id="PersonalMovieListTitle4" type="text" label="Titel Liste 4" visible="eq(-7,true)" enable="true" default=""/>
+        <setting id="PersonalMovieList4" type="text" label="ID Liste 4" visible="eq(-8,true)" enable="true" default=""/>
+        <setting id="PersonalMovieListTitle5" type="text" label="Titel Liste 5" visible="eq(-9,true)" enable="true" default=""/>
+        <setting id="PersonalMovieList5" type="text" label="ID Liste 5" visible="eq(-10,true)" enable="true" default=""/>
+        <setting type="text" label="[COLOR blue]ID im Format ls123456789 eingeben.[/COLOR]" visible="eq(-11,true)" />
+        <setting type="text" label="[COLOR blue]Große Listen benötigen lange Ladezeiten.[/COLOR]" visible="eq(-12,true)" />
+    </category>
+    <category label="Wiedergabe">
+        <setting id="hosts.mode" type="enum" label="Standard-Aktion" values="Dialog|Verzeichnis|Autoplay" default="1" />
+        <setting id="autoplay.sd" type="enum" label="Autoplay-Qualität" values="SD + HD|SD|HD" visible="eq(-1,2)" default="0" />
+        <setting id="autoplay.mode" type="bool" label="Ausblenden der Hoster" visible="eq(-2,2)" default="true" />
+        <setting id="progress.dialog" type="enum" label="Fortschrittsdialog" values="Vordergrund|Hintergrund" default="0" />
+        <setting id="prem.identify" type="enum" label="Textfarbe für Premium-Links" values="Blau|Rot|Gelb|Altrosa|Cyan|Grasgrün|Gold|Magenta|Gelbgrün|Ohne Farbe" default="2" />
+        <setting id="preemptive.termination" type="bool" label="Streamsuche vorzeitig abbrechen" default="False" />
+        <setting id="preemptive.limit" type="slider" label="Abbruch-Limit Streamsuche" default="10" range="1,50" option="int" />
+        <setting id="preload.mode" type="bool" label="Vorausladen der nächsten Episode" default="true" />
+        <setting type="lsep" label="Bei Wiedergabe-Start..." />
+        <setting id="bookmarks" type="bool" label="Fortsetzen" default="true" />
+        <setting id="bookmarks.trakt" type="bool" label="Trakt-Fortsetzungspunkt" default="false" enable="!eq(-1,false)" />
+        <setting id="bookmarks.auto" type="bool" label="Automatisch Fortsetzen" default="false" enable="!eq(-2,false)" />
+        <setting type="lsep" label="Bei Wiedergabe-Ende..." />
+        <setting id="crefresh" type="bool" label="Verzeichnis neu laden" default="false" />
+        <setting type="lsep" label="Dateinanbieter-Filter" />
+        <setting id="hosts.quality" type="enum" label="Höchste Qualität" values="4K|1440p|1080p|720p|480p" default="0" />
+        <setting id="sources.extrainfo" type="bool" label="Zusatzinfo für Quellen anzeigen" default="true" />
+        <setting id="HEVC" type="bool" label="HEVC" default="true" />
+        <setting id="hosts.sort.provider" type="bool" label="Nach Indexseiten sortieren" default="false" />
+        <setting id="no.subbed" type="bool" label="Filtere Streams mit Untertitel" default="false" />
+        <setting id="hosts.pairing" type="bool" label="Hoster mit Pairing" default="true" />
+        <setting id="hosts.blocking" type="bool" label="Hoster ausschließen" default="false" />
+        <setting id="HosterBlockingList1" type="text" label="Hoster 1" visible="eq(-1,true)" enable="true" default=""/>
+        <setting id="HosterBlockingList2" type="text" label="Hoster 2" visible="eq(-2,true)" enable="true" default=""/>
+        <setting id="HosterBlockingList3" type="text" label="Hoster 3" visible="eq(-3,true)" enable="true" default=""/>
+        <setting id="HosterBlockingList4" type="text" label="Hoster 4" visible="eq(-4,true)" enable="true" default=""/>
+        <setting id="HosterBlockingList5" type="text" label="Hoster 5" visible="eq(-5,true)" enable="true" default=""/>
+        <setting id="HosterBlockingList6" type="text" label="Hoster 6" visible="eq(-6,true)" enable="true" default=""/>
+        <setting id="HosterBlockingList7" type="text" label="Hoster 7" visible="eq(-7,true)" enable="true" default=""/>
+        <setting id="HosterBlockingList8" type="text" label="Hoster 8" visible="eq(-8,true)" enable="true" default=""/>
+        <setting id="HosterBlockingList9" type="text" label="Hoster 9" visible="eq(-9,true)" enable="true" default=""/>
+        <setting id="HosterBlockingList10" type="text" label="Hoster 10" visible="eq(-10,true)" enable="true" default=""/>
+        <setting type="text" label="[COLOR blue]Hoster im Format name.domain eingeben.[/COLOR]" visible="eq(-11,true)" />
+        <setting type="text" label="[COLOR blue]Bei mehreren Domains eines Hosters muss für jede Domain eine neue Zeile verwendet werden.[/COLOR]" visible="eq(-12,true)" />
+    </category>
+    <category label="Indexseiten">
+        <setting type="lsep" label="Datenbanken" />
+        <setting id="provider.library" type="bool" label="LOKALE DATEIEN (BIBLIOTHEK)" default="true" />
+        <setting id="provider.emby" type="bool" label="EMBY" default="false" />
+        <setting id="provider.feedme" type="bool" label="FEEDME (DB)" default="false" />
+        <setting type="lsep" label="Premium (Abonnement vorausgesetzt)" />
+        <setting id="provider.amazon" type="bool" label="AMAZON.DE" default="false" />
+        <setting id="provider.amazonapp" type="enum" label="Verwendetes Amazon-Plugin" visible="eq(-1,true)" values="AmazonVOD|Amazon" default="0" />
+        <setting id="provider.maxdome" type="bool" label="MAXDOME.DE" default="false" />
+        <setting id="provider.netflix" type="bool" label="NETFLIX" default="false" />
+        <setting type="text" label="[COLOR blue]Netflix ist nur mit Kodi 18+ möglich.[/COLOR]" />
+        <setting type="lsep" label="Mediatheken" />
+        <setting id="provider.netzkino" type="bool" label="NETZKINO.DE" default="true" />
+        <setting id="provider.watchbox" type="bool" label="WATCHBOX.DE" default="true" />
+        <setting id="provider.zdf" type="bool" label="ZDF.DE" default="false" />
+        <setting type="lsep" label="Indexseiten" />
+        <setting id="provider.alleserien" type="bool" label="ALLESERIEN.COM" default="true" />
+        <setting id="provider.bsto" type="bool" label="BS.TO (ReCaptcha)" default="false" />
+        <setting id="provider.cine" type="bool" label="CINE.TO (ReCaptcha)" default="false" />
+        <setting id="provider.cinemaxx" type="bool" label="CINEMAXX.CC" default="true" />
+        <setting id="provider.ddl" type="bool" label="DDL.ME" default="true" />
+        <setting id="provider.filmpalast" type="bool" label="FILMPALAST.TO" default="true" />
+        <setting id="provider.hdfilme" type="bool" label="HDFILME.NET" default="true" />
+        <setting id="provider.hdstreams" type="bool" label="HD-STREAMS.ORG (ReCaptcha)" default="false" />
+        <setting id="provider.iload" type="bool" label="ILOAD.TO" default="true" />
+        <setting id="provider.kinoger" type="bool" label="KINOGER.COM" default="true" />
+        <setting id="provider.kino-cx" type="bool" label="KINO.CX" default="true" />
+        <setting id="provider.kinox" type="bool" label="KINOX.TO" default="false" />
+        <setting id="provider.movie2k-ag" type="bool" label="MOVIE2K.AG" default="true" />
+        <setting id="provider.movie4k" type="bool" label="MOVIE4K.TO" default="true" />
+        <setting id="provider.moviedream" type="bool" label="MOVIEDREAM.WS" default="true" />
+        <setting id="provider.moviestream" type="bool" label="MOVIESTREAM.EU" default="true" />
+        <setting id="provider.serienstream" type="bool" label="SERIENSTREAM.TO" default="false" />
+        <setting id="provider.streamking" type="bool" label="STREAMKING.EU" default="true" />
+        <setting id="provider.streamworld" type="bool" label="STREAMWORLD.TO (ReCaptcha)" default="false" />
+		<setting id="provider.stream-to" type="bool" label="STREAM.TO (ReCaptcha)" default="false" />
+    </category>
+    <category label="Konten">
+        <setting type="lsep" label="Fanart.tv" />
+        <setting type="text" label="[COLOR blue]Persönliche API-Keys verkürzen die Antwortzeiten.[/COLOR]" default="" />
+        <setting id="fanart.tv.user" type="text" label="API-Key" default="" />
+        <setting type="lsep" label="TMDB" />
+        <setting id="tm.user" type="text" option="hidden" label="API-Key" default="7bc672e41e6a18b47b8b11fda63df2c8" />
+        <setting type="lsep" label="Trakt" />
+        <setting id="trakt.user" type="text" label="Benutzer" visible="true" enable="false" default=""/>
+        <setting id="open_trakt_auth" type="action" label="Berechtigung" option="close" action="RunPlugin(plugin://plugin.video.lastship/?action=authTrakt)" />
+        <setting id="trakt.token" type="text" visible="false" label="" default="" />
+        <setting id="trakt.refresh" type="text" visible="false" label="" default="" />
+        <setting type="lsep" label="Trakt-Bibliothek und Automatische Synchronisierung" />
+        <setting id="lists.widget" type="enum" label="Meine Listen" values="Deaktiviert|Aktiviert" default="2" />
+        <setting id="prgr.sortorder" type="enum" label="Trakt-Fortschritt sortieren nach" values="kürzlich gesendet|kürzlich gesehen" default="1" visible="true" />
+        <setting id="autoTraktOnStart" type="bool" label="Synchronisierung bei Kodi Start" default="False" />
+        <setting id="schedTraktTime" type="slider" label="Geplante Updates jede Stunde/n" default="0" range="0,24" option="int" />
+        <setting type="lsep" label="IMDB" />
+        <setting id="imdb.user" type="text" label="Benutzer" default="" />
+        <setting type="lsep" label="Debrid-Service" />
+        <setting type="text" label="[COLOR blue]Konfiguriere Debrid-Dienste in den URLResolver-Einstellungen.[/COLOR]" />
+        <setting id="open_smu_settings" type="action" label="URLResolver-Einstellungen" enable="true" option="close" action="RunPlugin(plugin://plugin.video.lastship/?action=urlResolver)" />
+        <setting type="lsep" label="SerienStream.to" />
+        <setting id="serienstream.user" type="text" label="e-Mail" default="" />
+        <setting id="serienstream.pass" type="text" option="hidden" label="Passwort" default="" />
+        <setting type="text" label="[COLOR blue]Geschützter Link:[/COLOR]" />
+        <setting type="text" label="[COLOR blue]Diese Meldung kann trotz eingetragener Kontodaten erfolgen.[/COLOR]" />
+        <setting type="text" label="[COLOR blue]Ursache kann das schnelle Abrufen mehrerer Streams von s.to sein.[/COLOR]" />
+        <setting type="text" label="[COLOR blue]Die Sperre verschwindet nach einiger Zeit von selbst.[/COLOR]" />
+        <setting type="lsep" label="Emby" />
+        <setting id="emby.user" type="text" label="Benutzer" default="" />
+        <setting id="emby.pass" type="text" label="Passwort" option="hidden" default="" />
+        <setting id="emby.serverip" type="text" label="Emby Server-Adresse" default="" />
+        <setting id="emby.port" type="number" label="Emby Server-Port" default="" />
+        <setting id="emby.name" type="text" label="Emby Server-Name" default="Server" />
+        <setting type="lsep" label="Captcha-Einstellungen" />
+        <setting default="0" id="Recaptcha2.Mode" label="Captcha-Mode" type="enum" values="MyJDownloader|2Captcha|Captcha9KW" />
+        <setting id="Recaptcha2.TimeOut" type="slider" label="TimeOut" default="180" range="60,300" option="int" />
+        <setting type="lsep" label="MyJDownloader"/>
+        <setting id="MyJDownloader.user" type="text" label="E-Mail" default="" />
+        <setting id="MyJDownloader.pass" type="text" option="hidden" label="Passwort" default="" />
+        <setting type="lsep" label="Captcha9KW"/>
+        <setting id="Captcha9kw.ApiKey" type="text" label="API-Key" default="" />
+        <setting id="Captcha9kw.SolveType" type="bool" label="Nur eigene Captchas lösen (SelfSolve)" default="true" />
+        <setting type="lsep" label="TwoCaptcha"/>
+        <setting id="2Captcha.ApiKey" type="text" label="API-Key" default="" />
+    </category>
+    <category label="Bibliothek">
+        <setting id="library.movie" type="folder" label="Filme" default="special://userdata/addon_data/plugin.video.lastship/Movies" />
+        <setting id="library.tv" type="folder" label="TV-Serien" default="special://userdata/addon_data/plugin.video.lastship/TVShows" />
+        <setting type="text" label="[COLOR blue]Zum Importieren müssen die Ordner als Medienquelle hinzugefügt werden.[/COLOR]" />
+        <setting type="text" label="[COLOR blue]Es wird dringend abgeraten folgende Einstellungen bei[/COLOR]" />
+        <setting type="text" label="[COLOR blue]bestehender Bibliothek zu verändern![/COLOR]" />
+        <setting id="Ordnerstruktur.auf.Deutsch" type="bool" label="Ordner- und Dateistrukur mit deutschen Titeln" default="false" />
+        <setting id="Season.Name" type="enum" label="Staffelbenennung" values="Season|S|Staffel" default="0" />
+        <setting type="lsep" label="Allgemeines" />
+        <setting id="library.service.notification" type="bool" label="Benachrichtigung während des Updates zeigen" default="true" />
+        <setting id="library.update" type="bool" label="Nach Hinzufügen von Inhalten die Bibliothek aktualisieren" default="true" />
+        <setting id="library.check" type="bool" label="Doppelte Einträge vermeiden" default="true" />
+        <setting type="lsep" label="Filme" />
+        <setting id="library.check_movie" type="bool" label="Film vor dem Hinzufügen prüfen" default="false" />
+        <setting type="lsep" label="TV-Serien" />
+        <setting id="library.service.update" type="bool" label="TV-Serien automatisch aktualisieren" default="true" />
+        <setting id="library.check_episode" type="bool" label="Erste Episode vor dem Hinzufügen prüfen" default="false" />
+        <setting id="library.include_unknown" type="bool" label="Episoden mit unbekanntem Ausstrahlungsdatum einbeziehen" default="false" />
+        <setting id="library.importdelay" type="bool" label="Verzögerung für Episoden-Importierung (24h)" default="true" />
+    </category>
+    <category label="Downloads">
+        <setting type="text" label="[COLOR blue]Herunterladen ist standardmäßig deaktiviert.[/COLOR]" />
+        <setting type="text" label="[COLOR blue]Ordnerpfade müssen vollständig angegeben werden.[/COLOR]" />
+        <setting id="downloads" type="bool" label="Herunterladen aktivieren" default="false" />
+        <setting id="movie.download.path" type="folder" label="Filme" enable="!eq(-1,false)" default="" />
+        <setting id="tv.download.path" type="folder" label="TV-Serien" enable="!eq(-2,false)" default="" />
+        <setting type="text" label="[COLOR blue]Es wird dringend abgeraten folgende Einstellungen bei[/COLOR]" visible="!eq(-3,false)" />
+        <setting type="text" label="[COLOR blue]bestehender Bibliothek zu verändern![/COLOR]" visible="!eq(-4,false)" />
+        <setting id="Download.Season.Name" type="enum" label="Staffelbenennung" values="Season|S|Staffel" visible="!eq(-5,false)" default="0" />
+        <setting id="Download.auf.Deutsch" type="bool" label="Benennung der Filme/Serien auf Deutsch" visible="!eq(-6,false)" default="false" />
+    </category>
+        <category label="FAQ">
+        <setting id="hilfe1" type="bool" label="[COLOR blue]Kann ich helfen?[/COLOR]" default="false" />
+        <setting type="text" label="Du hast auch ohne Programmierkenntnisse verschiedene Möglichkeiten " visible="eq(-1,true)" enable="true" default=""/>
+        <setting type="text" label="uns zu helfen." visible="eq(-2,true)" enable="true" default=""/>
+        <setting id="hilfe2" type="bool" label="[COLOR blue]Werden auch englische Streams unterstützt?[/COLOR]" default="false" />
+        <setting type="text" label="Nein. Dies wird sich auch zukünftig nicht ändern." visible="eq(-1,true)" enable="true" default=""/>
+        <setting id="hilfe3" type="bool" label="[COLOR blue]Warum geht der Hoster / der Link / die Seite XYZ nicht?[/COLOR]" default="false" />
+        <setting type="text" label="Kontrolliere bitte ob der Hoster / der Link / die Seite in einem" visible="eq(-1,true)" enable="true" default=""/>
+        <setting type="text" label="Browser funktioniert. Wenn ja: Schildere uns das Problem bitte." visible="eq(-2,true)" enable="true" default=""/>
+        <setting id="hilfe4" type="bool" label="[COLOR blue]Wann wird der Fehler XYZ behoben?[/COLOR]" default="false" />
+        <setting type="text" label="Dies ist sehr unterschiedlich weshalb dazu keine Aussage getroffen" visible="eq(-1,true)" enable="true" default=""/>
+        <setting type="text" label="werden kann. Bitte habe Geduld." visible="eq(-2,true)" enable="true" default=""/>
+        <setting id="hilfe5" type="bool" label="[COLOR blue]Warum werden nur wenige Streams gefunden?[/COLOR]" default="false" />
+        <setting type="text" label="Kontrolliere bitte ob der Hoster / der Link / die Seite in einem" visible="eq(-1,true)" enable="true" default=""/>
+        <setting type="text" label="Browser funktioniert. Wenn ja: Schildere uns das Problem bitte." visible="eq(-2,true)" enable="true" default=""/>
+        <setting id="hilfe6" type="bool" label="[COLOR blue]Was mache ich bei Problemen mit Trakt.tv?[/COLOR]" default="false" />
+        <setting type="text" label="Kontrolliere ob Trakt.tv im Browser erreichbar ist und" visible="eq(-1,true)" enable="true" default=""/>
+        <setting type="text" label="autorisiere Trakt.tv neu. Besteht das Problem weiterhin melde dich." visible="eq(-2,true)" enable="true" default=""/>
+    </category>
+</settings>

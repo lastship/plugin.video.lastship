@@ -1,0 +1,59 @@
+[B][COLOR yellow]Info:[/COLOR][/B]
+Bei Problemen hilft es oft die Caches (Lastship und Kodi) zu löschen
+
+[B][COLOR blue]Allgemein:[/COLOR][/B]
+- Für die Seite Serienstream.to (s.to) ist ein Benutzerkonto erforderlich
+  (Beachte den Hinweis zu "Geschützter Link" in den Einstellungen!)
+- Amazon, Netflix und Maxdome sind nur mit einem gültigen Abo des Betreibers nutzbar
+- Bei einigen Indexseiten ist es möglich, Captcha in Lastship zu lösen
+
+[B][COLOR red]Anleitungen und Funktionen in der FAQ (in der plugin.video.lasthip.zip enthalten)[/COLOR][/B]
+
+[B]An alle User:[/B]
+
+Lastship hat nicht mehr die Stärke welche Ihr gewohnt seid und einiges funktioniert leider
+nicht wie gewünscht. Ebenso sind einige Indexseiten ohne Funktion
+Da wir zur Zeit kein Entwickler Team haben könnte das auch noch länger so bleiben
+
+Wir suchen daher Python Entwickler die am Project mitwirken wollen, diese sollen sich im Chat melden oder 
+fixes auf Github einreichen
+Bitte nicht jammern und lästern, es ändert nix, ausser dass wir wieder abtauchen
+
+[COLOR orange]_________________________________________________________________________[/COLOR]
+
+[B][COLOR lime]Changelog:[/COLOR][/B]
+
+[B]4.0.6.3[/B]
+  12.04.2020
+  Update:
+- Nightly Updates deaktiviert
+  Probleme mit dem Resolver Update und Lastship zieht um auf ein neues Github
+
+[B]4.0.6.2[/B]
+  11.04.2020
+- Fix UpdateManager
+
+[B]4.0.6.1[/B]
+  11.04.2020
+- Update UpdateManager (fix resolver nightly update)
+
+[B]4.0.6[/B]
+  10.04.2020
+- Update episodes.py (Neuer TVDB-API Key)
+- Fix serienstream
+- defekte/offline Seiten entfernt (proxer, nanime)
+- Neuer URLResolver nightly Link
+- Nightly Update in settings eingeblendet
+
+[B]4.0.5[/B]
+- Indexseiten Update
+- settings kleine Änderungen der Standard Einstellungen
+  
+  [B]4.0.4[/B]
+- einge Scraper entfernt
+  (Animebase, Animeloads, Foxx, Horrorkino)
+- FAQ in der plugin.video.lastship enthalten
+- Nightly Update in settings ausgeblendet (da eszur Zeit keine Funktion hat)
+
+[COLOR orange]_________________________________________________________________________[/COLOR]
+Editierhinweise: Keine Tabulatoren. Text darf nicht länger als die Linie sein.
