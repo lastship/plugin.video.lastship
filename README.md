@@ -3,9 +3,13 @@
 
 ## Willkommen bei Lastship für Kodi!
 
-Bei Lastship handelt es sich um ein Video-Addon für Kodi, welches das Streamen von Filmen und Serien über eine intuitive und optisch ansprechende Benutzeroberfläche ermöglicht
+Bei Lastship handelt es sich um ein Video-Addon für Kodi, welches das Streamen von Filmen und Serien über optisch ansprechende Benutzeroberfläche ermöglicht
 
-Der Funktionsumfang von Lastship wird von den beteiligten Entwicklern stetig weiterentwickelt 
+Der Funktionsumfang von Lastship ist eingeschränt, da zur Zeit kein aktives Entwicklerteam verfügbar
+
+Einige Funktionen sind defekt, auch mache Indexseiten funktionieren nicht mehr
+
+Wir suchen Python Entwickler, die am Project mitwirken wollen, meldet Euch bitte im Chat
 
 Webseiten werden auch als Indexseiten bezeichnet, welche auf die eigentlichen Quellen verweisen, die für das bereitgestellte Angebot verantworlich sind! 
 
