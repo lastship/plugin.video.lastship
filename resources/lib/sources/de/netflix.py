@@ -124,7 +124,7 @@ class source:
             if not url:
                 return sources
             # 'info': url[1] for debug output
-            sources.append({'source': 'Account', 'quality': '1080p', 'language': 'de', 'url': 'plugin://plugin.video.netflix/?action=play_video&video_id='+url[0], 'info': '', 'direct': True,'local': True, 'debridonly': False})
+            sources.append({'source': 'Account', 'quality': '1080p', 'language': 'de', 'url': 'plugin://plugin.video.netflix/play/movie/'+url[0], 'info': '', 'direct': True,'local': True, 'debridonly': False})
             return sources
 
         except:
