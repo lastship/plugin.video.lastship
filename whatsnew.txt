@@ -19,9 +19,15 @@ Wir suchen daher Python Entwickler die am Project mitwirken wollen, diese sollen
 fixes auf Github einreichen
 Bitte nicht jammern und lästern, es ändert nix, ausser dass wir wieder abtauchen
 
+"In den Kinos"hat zur zeit keine Funktion da von IMDB/TMDB kein Informationen zur Verfügung stehen, da zur Zeit
+nix im Kino läuft (wegen Corona)
+
 [COLOR orange]_________________________________________________________________________[/COLOR]
 
 [B][COLOR lime]Changelog:[/COLOR][/B]
+
+[B]4.0.6.4~nightly1[/B]
+- Upadate Netflix.py (Anpassung an Castagnal Repo)
 
 [B]4.0.6.3[/B]
   12.04.2020
