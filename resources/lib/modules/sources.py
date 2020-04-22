@@ -219,8 +219,10 @@ class sources:
                 ## Netflix Scraper Details ##
                 if "netflix" in label.lower():
                     item.setProperty('IsPlayable', 'true')
-                    aid=re.search(r'video_id%3D(.*?)%22%2C', sysurl)
-                    sysurl='plugin://plugin.video.netflix/?action=play_video&video_id=' + aid.group(1)
+                    # old nfx-url aid=re.search(r'video_id%3D(.*?)%22%2C', sysurl)
+                    aid = re.search(r'movie%2F(.*?)%22%2C', sysurl)
+                    sysurl = 'plugin://plugin.video.netflix/play/movie/' + aid.group(1)
+                    # old nfx-url sysurl='plugin://plugin.video.netflix/?action=play_video&video_id=' + aid.group(1)
 
 
                 ## Maxdome Scraper Details ##
