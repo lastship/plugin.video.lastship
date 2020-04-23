@@ -185,7 +185,7 @@ class source:
                     oRequest.removeNewLines(False)
                     r = oRequest.request()
                     r = dom_parser.parse_dom(r, 'meta', attrs={'name': 'keywords'}, req='content')
-                    if r and 'kino.to' in r[0].attrs.get('content').lower():
+                    if r and 'kinox.to' in r[0].attrs.get('content').lower():
                         return url
                 except:
                     pass
