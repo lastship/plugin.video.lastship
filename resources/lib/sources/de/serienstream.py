@@ -35,11 +35,11 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['de']
-        self.domains = ['s.to']
-        self.base_link = 'https://s.to'
+        self.domains = ['serienstream.sx']
+        self.base_link = 'https://serienstream.sx'
         self.search_link = '/serien'
-        self.login = control.setting('serienstream.user') or 'ymivajapo@wmail.club'
-        self.password = control.setting('serienstream.pass') or 'ymivajapo@wmail.club'
+        self.login = control.setting('serienstream.user')
+        self.password = control.setting('serienstream.pass')
         self.cookie = ''
         self.user_agent = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36'
 
