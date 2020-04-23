@@ -27,7 +27,10 @@ nix im Kino läuft (wegen Corona)
 [B][COLOR lime]Changelog:[/COLOR][/B]
 
 [B]4.0.6.4~nightly1[/B]
-- Upadate Netflix.py (Anpassung an Castagnal Repo)
+23.04.2020
+- Update Netflix.py (Anpassung an Castagnal Repo)
+- Update URL serienstream.sx
+- Update Kinox.to 
 
 [B]4.0.6.3[/B]
   12.04.2020
