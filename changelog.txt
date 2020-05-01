@@ -2,6 +2,7 @@
   Dieser kann dann nach einem Update direkt in Lastship angeschaut werden
 
 [B]4.0.6.4[/B]
+  23.04.2020
 - Update Netflix.py (Anpassung an Castagnal Repo)
 - Update URL serienstream.sx
 - Update Kinox.to 
