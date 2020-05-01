@@ -15,9 +15,8 @@ Lastship hat nicht mehr die Stärke welche Ihr gewohnt seid und einiges funktion
 nicht wie gewünscht. Ebenso sind einige Indexseiten ohne Funktion
 Da wir zur Zeit kein Entwickler Team haben könnte das auch noch länger so bleiben
 
-Wir suchen daher Python Entwickler die am Project mitwirken wollen, diese sollen sich im Chat melden oder 
-fixes auf Github einreichen
-Bitte nicht jammern und lästern, es ändert nix, ausser dass wir wieder abtauchen
+Wir suchen daher Python Entwickler die am Project mitwirken wollen, diese sollen sich im Chat melden
+https://gitter.im/Lastship_Chat/Lobby
 
 "In den Kinos"hat zur zeit keine Funktion da von IMDB/TMDB kein Informationen zur Verfügung stehen, da zur Zeit
 nix im Kino läuft (wegen Corona)
@@ -26,7 +25,7 @@ nix im Kino läuft (wegen Corona)
 
 [B][COLOR lime]Changelog:[/COLOR][/B]
 
-[B]4.0.6.4~nightly1[/B]
+[B]4.0.6.4[/B]
 23.04.2020
 - Update Netflix.py (Anpassung an Castagnal Repo)
 - Update URL serienstream.sx
