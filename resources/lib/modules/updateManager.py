@@ -51,8 +51,8 @@ def urlResolverUpdate(silent=False):
 ## LASTSHIP
 def pluginVideoLastship(silent=False):
     name = 'plugin.video.lastship'
-    REMOTE_PLUGIN_COMMITS = "https://api.github.com/repos/lastship/plugin.video.lastship/commits/nightly"
-    REMOTE_PLUGIN_DOWNLOADS = "https://api.github.com/repos/lastship/plugin.video.lastship/zipball/nightly"
+    REMOTE_PLUGIN_COMMITS = "https://api.github.com/repos/lastship/plugin.video.lastship/commits/nightly?access_token=ebea6f663be2cf17a8d348c9aced39384a9438c9"
+    REMOTE_PLUGIN_DOWNLOADS = "https://api.github.com/repos/lastship/plugin.video.lastship/zipball/nightly?access_token=ebea6f663be2cf17a8d348c9aced39384a9438c9"
     try:
         Update(name, REMOTE_PLUGIN_COMMITS, REMOTE_PLUGIN_DOWNLOADS, silent)
 
@@ -190,8 +190,8 @@ def devUpdates():
         rs = False
         LS = False
 
-        options = ['Beide', 'URL Resolver', 'Lastship']
-        result = Dialog().select('Welches Update ausführen?', options)
+        options = ['Lastship']
+        result = Dialog().select('Update ausführen?', options)
 
         if result == 0:
             rs = True
