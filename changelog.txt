@@ -1,7 +1,7 @@
 - Den Changelog zu plugin.video.lastship bitte auch in der "whatsnew" eintragen
   Dieser kann dann nach einem Update direkt in Lastship angeschaut werden
 
-[B]4.0.6.4~nightly1[/B]
+[B]4.0.6.4[/B]
 - Update Netflix.py (Anpassung an Castagnal Repo)
 - Update URL serienstream.sx
 - Update Kinox.to 
