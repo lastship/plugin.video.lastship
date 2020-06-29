@@ -18,31 +18,20 @@ Da wir zur Zeit kein Entwickler Team haben könnte das auch noch länger so blei
 Wir suchen daher Python Entwickler die am Project mitwirken wollen, diese sollen sich im Chat melden
 https://gitter.im/Lastship_Chat/Lobby
 
-"In den Kinos"hat zur zeit keine Funktion da von IMDB/TMDB kein Informationen zur Verfügung stehen, da zur Zeit
-nix im Kino läuft (wegen Corona)
+"In den Kinos"hat zur zeit keine Funktion da von IMDB/TMDB kein Informationen zur Verfügung stehen
 
 [COLOR orange]_________________________________________________________________________[/COLOR]
 
 [B][COLOR lime]Changelog:[/COLOR][/B]
 
-[B]4.0.6.4[/B]
-23.04.2020
+[B]4.0.7[/B]
+  29.06.2020
+- Update addon.xml (add script.module.six Support)
 - Update Netflix.py (Anpassung an Castagnal Repo)
 - Update URL serienstream.sx
 - Update Kinox.to 
-
-[B]4.0.6.3[/B]
-  12.04.2020
-  Update:
 - Nightly Updates deaktiviert
   Probleme mit dem Resolver Update und Lastship zieht um auf ein neues Github
-
-[B]4.0.6.2[/B]
-  11.04.2020
-- Fix UpdateManager
-
-[B]4.0.6.1[/B]
-  11.04.2020
 - Update UpdateManager (fix resolver nightly update)
 
 [B]4.0.6[/B]
