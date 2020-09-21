@@ -48,7 +48,7 @@ class source:
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         try:
-            url = self.__search(source_utils.get_titles_for_search(tvshowtitle, localtvshowtitle, aliases), year)
+            url = self.__search(tvshowtitle, year)
             return url
         except:
             return
@@ -125,8 +125,8 @@ class source:
     def __search(self, titles, year):
         try:
             r = cache.get(client.request, 48, urlparse.urljoin(self.base_link, self.search_link))
-
-            t = [cleantitle.get(i) for i in set(titles) if i]
+            print(titles)
+            t = cleantitle.get(titles)
 
             links = dom_parser.parse_dom(r, "div", attrs={"class" : "genre"})
             links = dom_parser.parse_dom(links, "a")

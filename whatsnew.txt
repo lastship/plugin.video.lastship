@@ -1,6 +1,8 @@
 [B][COLOR yellow]Info:[/COLOR][/B]
 Bei Problemen hilft es oft die Caches (Lastship und Kodi) zu löschen
 
+Verwendung NUR mit Kod18 möglich, NICHT mit Kodi19 (hier müsste der ganze Code angepasst werden)
+
 [B][COLOR blue]Allgemein:[/COLOR][/B]
 - Für die Seite Serienstream.to (s.to) ist ein Benutzerkonto erforderlich
   (Beachte den Hinweis zu "Geschützter Link" in den Einstellungen!)
@@ -24,6 +26,12 @@ https://gitter.im/Lastship_Chat/Lobby
 
 [B][COLOR lime]Changelog:[/COLOR][/B]
 
+[B]4.0.7.1[/B]
+  21.09.2020
+  Update:
+- serienstream 
+	(Quickfix aus zeitlichen Gründen/Entwicklermangel, Serienstream funktioniert wieder, jedoch werden bei der Suche oft falsche Ergebnisse angezeigt)
+
 [B]4.0.7[/B]
   29.06.2020
 - Update addon.xml (add script.module.six Support)
@@ -34,23 +42,6 @@ https://gitter.im/Lastship_Chat/Lobby
   Probleme mit dem Resolver Update und Lastship zieht um auf ein neues Github
 - Update UpdateManager (fix resolver nightly update)
 
-[B]4.0.6[/B]
-  10.04.2020
-- Update episodes.py (Neuer TVDB-API Key)
-- Fix serienstream
-- defekte/offline Seiten entfernt (proxer, nanime)
-- Neuer URLResolver nightly Link
-- Nightly Update in settings eingeblendet
-
-[B]4.0.5[/B]
-- Indexseiten Update
-- settings kleine Änderungen der Standard Einstellungen
-  
-  [B]4.0.4[/B]
-- einge Scraper entfernt
-  (Animebase, Animeloads, Foxx, Horrorkino)
-- FAQ in der plugin.video.lastship enthalten
-- Nightly Update in settings ausgeblendet (da eszur Zeit keine Funktion hat)
 
 [COLOR orange]_________________________________________________________________________[/COLOR]
 Editierhinweise: Keine Tabulatoren. Text darf nicht länger als die Linie sein.
