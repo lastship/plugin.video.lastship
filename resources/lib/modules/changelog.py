@@ -1,7 +1,6 @@
 # -*- coding: UTF-8 -*-
-
 """
-    Lastship Add-on (C) 2019
+    Lastship Add-on (C) 2020
     Credits to Placenta and Covenant; our thanks go to their creators
 
     This program is free software: you can redistribute it and/or modify
@@ -22,23 +21,19 @@
 # Addon id: plugin.video.lastship
 # Addon Provider: LastShip
 
+import xbmc, xbmcgui, xbmcaddon, xbmcvfs
+
 
 def get(version):
     try:
-        import xbmc,xbmcgui,xbmcaddon,xbmcvfs
-
         f = xbmcvfs.File(xbmcaddon.Addon().getAddonInfo('changelog'))
-        text = f.read() ; f.close()
-
+        text = f.read()
+        f.close()
         label = '%s - %s' % (xbmc.getLocalizedString(24054), xbmcaddon.Addon().getAddonInfo('name'))
-
         id = 10147
-
         xbmc.executebuiltin('ActivateWindow(%d)' % id)
         xbmc.sleep(100)
-
         win = xbmcgui.Window(id)
-
         retry = 50
         while (retry > 0):
             try:
@@ -48,9 +43,6 @@ def get(version):
                 retry = 0
             except:
                 retry -= 1
-
         return '1'
     except:
         return '1'
-
-
