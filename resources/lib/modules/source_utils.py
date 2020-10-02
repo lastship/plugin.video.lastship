@@ -1,5 +1,4 @@
 # -*- coding: UTF-8 -*-
-
 """
     Lastship Add-on (C) 2019
     Credits to Placenta and Covenant; our thanks go to their creators
@@ -23,14 +22,18 @@
 # Addon Provider: LastShip
 
 import base64
-import urlparse
-import urllib
 import hashlib
 import re
 
 from resources.lib.modules import client
 from resources.lib.modules import directstream
 from resources.lib.modules import trakt
+try:
+    from urlparse import urlparse
+    from urllib import quote_plus
+except ImportError:
+    from urllib.parse import urlparse, quote_plus
+
 
 def is_anime(content, type, type_id):
     try:
@@ -39,8 +42,8 @@ def is_anime(content, type, type_id):
     except:
         return False
 
-def get_release_quality(release_name, release_link=None):
 
+def get_release_quality(release_name, release_link=None):
     if release_name is None: return
 
     try: release_name = release_name.encode('utf-8')
@@ -48,7 +51,6 @@ def get_release_quality(release_name, release_link=None):
 
     try:
         quality = None
-        
         release_name = release_name.upper()
 
         fmt = re.sub('(.+)(\.|\(|\[|\s)(\d{4}|S\d*E\d*|S\d*)(\.|\)|\]|\s)', '', release_name)
@@ -70,7 +72,7 @@ def get_release_quality(release_name, release_link=None):
                 elif '1080p' in fmt: quality = '1080p'
                 elif '720' in release_link: quality = '720p'
                 elif '.hd' in release_link: quality = 'SD'
-                else: 
+                else:
                     if any(i in ['dvdscr', 'r5', 'r6'] for i in release_link): quality = 'SCR'
                     elif any(i in ['camrip', 'tsrip', 'hdcam', 'hdts', 'dvdcam', 'dvdts', 'cam', 'telesync', 'ts'] for i in release_link): quality = 'CAM'
                     else: quality = 'SD'
@@ -82,13 +84,12 @@ def get_release_quality(release_name, release_link=None):
         return quality, info
     except:
         return 'SD', []
-        
-def getFileType(url):
 
+
+def getFileType(url):
     try: url = url.lower()
     except: url = str(url)
     type = ''
-    
     if 'bluray' in url: type += ' BLURAY /'
     if '.web-dl' in url: type += ' WEB-DL /'
     if '.web.' in url: type += ' WEB-DL /'
@@ -110,18 +111,18 @@ def getFileType(url):
     if 'h.264' in url: type += ' H.264 /'
     if '.x264' in url: type += ' x264 /'
     if '.x265' in url: type += ' x265 /'
-    if 'subs' in url: 
+    if 'subs' in url:
         if type != '': type += ' - WITH SUBS'
         else: type = 'SUBS'
     type = type.rstrip('/')
     return type
 
-def check_sd_url(release_link):
 
+def check_sd_url(release_link):
     try:
         release_link = release_link.lower()
-        if '2160p' in fmt: quality = '4K'
-        elif '1080p' in fmt: quality = '1080p'
+        if '2160p' in release_link: quality = '4K'
+        elif '1080p' in release_link: quality = '1080p'
         elif '720' in release_link: quality = '720p'
         elif '.hd.' in release_link: quality = '720p'
         elif any(i in ['dvdscr', 'r5', 'r6'] for i in release_link): quality = 'SCR'
@@ -130,6 +131,7 @@ def check_sd_url(release_link):
         return quality
     except:
         return 'SD'
+
 
 def label_to_quality(label):
     try:
@@ -148,6 +150,7 @@ def label_to_quality(label):
             return 'SD'
     except:
         return 'SD'
+
 
 def strip_domain(url):
     try:
@@ -169,7 +172,7 @@ def is_host_valid(url, domains):
             host = hosts[0]
         if hosts and any([h for h in ['google', 'picasa', 'blogspot'] if h in host]):
             host = 'gvideo'
-        if hosts and any([h for h in ['akamaized','ocloud'] if h in host]):
+        if hosts and any([h for h in ['akamaized', 'ocloud'] if h in host]):
             host = 'CDN'
         return any(hosts), host
     except:
@@ -177,7 +180,7 @@ def is_host_valid(url, domains):
 
 
 def __top_domain(url):
-    elements = urlparse.urlparse(url)
+    elements = urlparse(url)
     domain = elements.netloc or elements.path
     domain = domain.split('@')[-1].split(':')[0]
     regex = "(?:www\.)?([\w\-]*\.[\w\-]{2,3}(?:\.[\w\-]{2,3})?)$"
@@ -185,6 +188,7 @@ def __top_domain(url):
     if res: domain = res.group(1)
     domain = domain.lower()
     return domain
+
 
 def aliases_to_array(aliases, filter=None):
     try:
@@ -199,7 +203,8 @@ def aliases_to_array(aliases, filter=None):
 
 
 def append_headers(headers):
-    return '|%s' % '&'.join(['%s=%s' % (key, urllib.quote_plus(headers[key])) for key in headers])
+    return '|%s' % '&'.join(['%s=%s' % (key, quote_plus(headers[key])) for key in headers])
+
 
 def get_size(url):
     try:
@@ -209,17 +214,19 @@ def get_size(url):
         return size
     except: return False
 
+
 def convert_size(size_bytes):
-   import math
-   if size_bytes == 0:
-       return "0B"
-   size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
-   i = int(math.floor(math.log(size_bytes, 1024)))
-   p = math.pow(1024, i)
-   s = round(size_bytes / p, 2)
-   if size_name[i] == 'B' or size_name[i] == 'KB': return None
-   return "%s %s" % (s, size_name[i])
-   
+    import math
+    if size_bytes == 0:
+        return "0B"
+    size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+    i = int(math.floor(math.log(size_bytes, 1024)))
+    p = math.pow(1024, i)
+    s = round(size_bytes / p, 2)
+    if size_name[i] == 'B' or size_name[i] == 'KB': return None
+    return "%s %s" % (s, size_name[i])
+
+
 def check_directstreams(url, hoster='', quality='SD'):
     urls = []
     host = hoster
@@ -239,7 +246,7 @@ def check_directstreams(url, hoster='', quality='SD'):
     elif any(x in url for x in ['akamaized', 'blogspot', 'ocloud.stream']):
         urls = [{'url': url}]
         if urls: host = 'CDN'
-        
+
     direct = True if urls else False
 
     if not urls: urls = [{'quality': quality, 'url': url}]
@@ -261,6 +268,7 @@ def evp_decode(cipher_text, passphrase, salt=None):
     plain_text = decrypter.feed(cipher_text)
     plain_text += decrypter.feed()
     return plain_text
+
 
 def __evpKDF(passwd, salt, key_size=8, iv_size=4, iterations=1, hash_algorithm="md5"):
     target_key_size = key_size + iv_size
