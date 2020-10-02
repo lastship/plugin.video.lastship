@@ -22,8 +22,7 @@
 # Addon id: plugin.video.lastship
 # Addon Provider: LastShip
 
-import sys,re,json,urllib,urlparse,random,datetime,time,xbmcaddon
-
+import sys, re, json, random, datetime, time, xbmcaddon, xbmc
 from resources.lib.modules import trakt
 from resources.lib.modules import tvmaze
 from resources.lib.modules import cache
@@ -33,19 +32,21 @@ from resources.lib.modules import client
 from resources.lib.modules import debrid
 from resources.lib.modules import workers
 from resources.lib.modules import source_utils
-from resources.lib.modules import log_utils
+from resources.lib.modules.tools import cParser, logger
 from resources.lib.modules import source_faultlog
-
-try: from sqlite3 import dbapi2 as database
-except: from pysqlite2 import dbapi2 as database
-
-try: import urlresolver
-except: pass
-
-try: import xbmc
-except: pass
+from functools import reduce
+try:
+    from sqlite3 import dbapi2 as database
+except:
+    from pysqlite2 import dbapi2 as database
+try:
+    from urllib import quote_plus
+    from urlparse import parse_qsl
+except ImportError:
+    from urllib.parse import quote_plus, parse_qsl
 
 this_addon =  xbmcaddon.Addon()
+
 
 class sources:
     def __init__(self):
@@ -81,7 +82,7 @@ class sources:
                     control.sleep(200)
 
                     if preload == False:
-                        return control.execute('Container.Update(%s?action=addItem&title=%s)' % (sys.argv[0], urllib.quote_plus(title)))
+                        return control.execute('Container.Update(%s?action=addItem&title=%s)' % (sys.argv[0], quote_plus(title)))
                 elif select == '0' or select == '1':
                     if preload == False:
                         url = self.sourcesDialog(items)
@@ -124,12 +125,12 @@ class sources:
 
         downloads = True if control.setting('downloads') == 'true' and not (control.setting('movie.download.path') == '' or control.setting('tv.download.path') == '') else False
 
-        systitle = sysname = urllib.quote_plus(title)
+        systitle = sysname = quote_plus(title)
 
         if 'tvshowtitle' in meta and 'season' in meta and 'episode' in meta:
-            sysname += urllib.quote_plus(' S%02dE%02d' % (int(meta['season']), int(meta['episode'])))
+            sysname += quote_plus(' S%02dE%02d' % (int(meta['season']), int(meta['episode'])))
         elif 'year' in meta:
-            sysname += urllib.quote_plus(' (%s)' % meta['year'])
+            sysname += quote_plus(' (%s)' % meta['year'])
 
         ## Fanart Feature problematik - hier wird db item übergeben, aber nicht die auswahl ##
         ## GGf. sollte man überlegen, die Auswahl in meta.items reinzuschreiben
@@ -159,13 +160,13 @@ class sources:
         if fanart == '0': fanart = control.addonFanart()
         if thumb == '0': thumb = control.addonFanart()
 
-        sysimage = urllib.quote_plus(poster.encode('utf-8'))
+        sysimage = quote_plus(poster.encode('utf-8'))
 
         for i in range(len(items)):
             try:
                 label = items[i]['label']
 
-                syssource = urllib.quote_plus(json.dumps([items[i]]))
+                syssource = quote_plus(json.dumps([items[i]]))
 
                 sysurl = '%s?action=playItem&title=%s&source=%s' % (sysaddon, systitle, syssource)
 
@@ -258,7 +259,7 @@ class sources:
                     u = control.infoLabel('ListItem(%s).FolderPath' % str(i))
                     if u in total: raise Exception()
                     total.append(u)
-                    u = dict(urlparse.parse_qsl(u.replace('?','')))
+                    u = dict(parse_qsl(u.replace('?','')))
                     u = json.loads(u['source'])[0]
                     next.append(u)
                 except:
@@ -268,7 +269,7 @@ class sources:
                     u = control.infoLabel('ListItem(%s).FolderPath' % str(i))
                     if u in total: raise Exception()
                     total.append(u)
-                    u = dict(urlparse.parse_qsl(u.replace('?','')))
+                    u = dict(parse_qsl(u.replace('?','')))
                     u = json.loads(u['source'])[0]
                     prev.append(u)
                 except:
@@ -600,7 +601,7 @@ class sources:
                                 percent = int(100 * float(i) / (2 * timeout) + 0.5)
                                 progressDialog.update(max(1, percent), line1, line2)
                         except Exception as e:
-                            log_utils.log('Exception Raised: %s' % str(e), log_utils.LOGERROR)
+                            logger.error('Exception Raised: %s' % str(e))
                     else:
                         try:
                             mainleft = [sourcelabelDict[x.getName()] for x in threads if x.is_alive() == True and x.getName() in mainsourceDict]
@@ -649,7 +650,7 @@ class sources:
 
 
     def getMovieSource(self, title, localtitle, aliases, year, imdb, source, call):
-    ## Note: Kein Provider Cache fuer Emby. Siehe --> if not "emby" in source:
+        # Note: Kein Provider Cache fuer Emby. Siehe --> if not "emby" in source:
         try:
             dbcon = database.connect(self.sourceFile)
             dbcur = dbcon.cursor()
@@ -888,7 +889,7 @@ class sources:
 
         #removing debrid only function, re-use for  https://github.com/lastship/plugin.video.lastship/issues/120
         if no_subbed == 'true':
-            filter = [i for i in self.sources if  'info' in i and 'subbed' in i['info']]
+            filter = [i for i in self.sources if 'info' in i and 'subbed' in i['info']]
             self.sources = [i for i in self.sources if not i in filter]
 
         multi = [i['language'] for i in self.sources]
@@ -958,8 +959,7 @@ class sources:
                 or self.sources[i]['provider']=="netflix"
                 or self.sources[i]['provider']=="netzkino"
                 or self.sources[i]['provider']=="maxdome"
-                or self.sources[i]['provider']=="watchbox"
-                    ):
+                or self.sources[i]['provider']=="watchbox"):
                 if not prem_identify == 'nocolor':
                     self.sources[i]['label'] = ('[COLOR %s]' % (prem_identify)) + label.upper() + '[/COLOR]'
 
@@ -973,6 +973,7 @@ class sources:
 
 
     def sourcesResolve(self, item, info=False):
+        import urlresolver
         try:
             self.url = None
 
@@ -1010,8 +1011,8 @@ class sources:
 
             try: headers = url.rsplit('|', 1)[1]
             except: headers = ''
-            headers = urllib.quote_plus(headers).replace('%3D', '=') if ' ' in headers else headers
-            headers = dict(urlparse.parse_qsl(headers))
+            headers = quote_plus(headers).replace('%3D', '=') if ' ' in headers else headers
+            headers = dict(parse_qsl(headers))
 
             if url.startswith('http') and '.m3u8' in url:
                 result = client.request(url.split('|')[0], headers=headers, output='geturl', timeout='20')
@@ -1103,7 +1104,7 @@ class sources:
         except Exception as e:
             try: progressDialog.close()
             except: pass
-            log_utils.log('Error %s' % str(e), log_utils.LOGNOTICE)
+            logger.error('Error %s' % str(e))
 
 
     def sourcesDirect(self, items):
@@ -1211,7 +1212,7 @@ class sources:
         self.metaProperty = 'plugin.video.lastship.container.meta'
 
         from resources.lib.sources import sources
-
+        import urlresolver
         self.sourceDict = sources()
 
         try:
