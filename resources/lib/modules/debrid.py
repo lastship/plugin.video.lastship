@@ -22,7 +22,7 @@
 # Addon id: plugin.video.lastship
 # Addon Provider: LastShip
 
-from resources.lib.modules import log_utils
+from resources.lib.modules.tools import logger
 
 try:
     import urlresolver
@@ -33,9 +33,10 @@ try:
         # Support Rapidgator accounts! Unfortunately, `sources.py` assumes that rapidgator.net is only ever
         # accessed via a debrid service, so we add rapidgator as a debrid resolver and everything just works.
         # As a bonus(?), rapidgator links will be highlighted just like actual debrid links
-        debrid_resolvers = [resolver() for resolver in urlresolver.relevant_resolvers(order_matters=True,include_universal=False) if 'rapidgator.net' in resolver.domains]
+        debrid_resolvers = [resolver() for resolver in urlresolver.relevant_resolvers(order_matters=True, include_universal=False) if 'rapidgator.net' in resolver.domains]
 
-except:
+except Exception as e:
+    logger.error('debrid - Resolve Failure: %s' % (e))
     debrid_resolvers = []
 
 
@@ -53,5 +54,5 @@ def resolver(url, debrid):
 
         return stream_url
     except Exception as e:
-        log_utils.log('%s Resolve Failure: %s' % (debrid, e), log_utils.LOGWARNING)
+        logger.error('%s Resolve Failure: %s' % (debrid, e))
         return None
