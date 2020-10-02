@@ -38,7 +38,7 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['de']
-        self.domains = ['kinox.fun', 'kinox.fyi', 'kinox.wtf', 'kinox.tv', 'kinos.to', 'kinox.ag', 'kinox.to', 'kinox.me', 'kinox.am', 'kinox.nu', 'kinox.pe', 'kinox.sg', 'kinox.nu', 'kinox.si']
+        self.domains = [ 'kinos.to', 'kinox.fun', 'kinox.fyi', 'kinox.wtf', 'kinox.tv', 'kinox.ag', 'kinox.to', 'kinox.me', 'kinox.am', 'kinox.nu', 'kinox.pe', 'kinox.sg', 'kinox.nu', 'kinox.si']
         self._base_link = None
         self.search_link = '/Search.html?q=%s'
         self.get_links_epi = '/aGET/MirrorByEpisode/?Addr=%s&SeriesID=%s&Season=%s&Episode=%s'
@@ -47,7 +47,7 @@ class source:
     @property
     def base_link(self):
         if not self._base_link:
-            self._base_link = cache.get(self.__get_base_url, 120, 'http://%s' % self.domains[0])
+            self._base_link = cache.get(self.__get_base_url, 120, 'https://%s' % self.domains[0])
         return self._base_link
 
     def movie(self, imdb, title, localtitle, aliases, year):
@@ -143,7 +143,7 @@ class source:
             r = [i[0][0].attrs['href'] if i[0] else i[1][0].attrs['src'] for i in r if i[0] or i[1]][0]
 
             if not r.startswith('http'):
-                r = urlparse.urljoin('http:', r)
+                r = urlparse.urljoin('https:', r)
 
             return r
         except:
