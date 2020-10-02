@@ -133,7 +133,7 @@
     </category>
     <category label="Indexseiten">
         <setting type="lsep" label="Datenbanken" />
-        <setting id="provider.library" type="bool" label="LOKALE DATEIEN (BIBLIOTHEK)" default="true" />
+        <setting id="provider.library" type="bool" label="LOKALE DATEIEN (BIBLIOTHEK)" default="false" />
         <setting id="provider.emby" type="bool" label="EMBY" default="false" />
         <setting id="provider.feedme" type="bool" label="FEEDME (DB)" default="false" />
         <setting type="lsep" label="Premium (Abonnement vorausgesetzt)" />
@@ -143,28 +143,28 @@
         <setting id="provider.netflix" type="bool" label="NETFLIX" default="false" />
         <setting type="text" label="[COLOR blue]Netflix ist nur mit Kodi 18+ möglich.[/COLOR]" />
         <setting type="lsep" label="Mediatheken" />
-        <setting id="provider.netzkino" type="bool" label="NETZKINO.DE" default="true" />
-        <setting id="provider.watchbox" type="bool" label="WATCHBOX.DE" default="true" />
+        <setting id="provider.watchbox" type="bool" label="WATCHBOX.DE" default="false" />
         <setting id="provider.zdf" type="bool" label="ZDF.DE" default="false" />
         <setting type="lsep" label="Indexseiten" />
         <setting id="provider.alleserien" type="bool" label="ALLESERIEN.COM" default="true" />
         <setting id="provider.bsto" type="bool" label="BS.TO (ReCaptcha)" default="false" />
         <setting id="provider.cine" type="bool" label="CINE.TO (ReCaptcha)" default="false" />
-        <setting id="provider.cinemaxx" type="bool" label="CINEMAXX.CC" default="true" />
-        <setting id="provider.ddl" type="bool" label="DDL.ME" default="true" />
+        <setting id="provider.cinemaxx" type="bool" label="CINEMAXX.CC" default="false" />
+        <setting id="provider.ddl" type="bool" label="DDL.ME" default="false" />
         <setting id="provider.filmpalast" type="bool" label="FILMPALAST.TO" default="true" />
         <setting id="provider.hdfilme" type="bool" label="HDFILME.NET" default="true" />
-        <setting id="provider.hdstreams" type="bool" label="HD-STREAMS.ORG (ReCaptcha)" default="false" />
-        <setting id="provider.iload" type="bool" label="ILOAD.TO" default="true" />
+        <setting id="provider.hdstreams" type="bool" label="HD-STREAMS.ORG (ReCaptcha)" default="true" />
+        <setting id="provider.iload" type="bool" label="ILOAD.TO" default="false" />
         <setting id="provider.kinoger" type="bool" label="KINOGER.COM" default="true" />
-        <setting id="provider.kino-cx" type="bool" label="KINO.CX" default="true" />
-        <setting id="provider.kinox" type="bool" label="KINOX.TO" default="false" />
-        <setting id="provider.movie2k-ag" type="bool" label="MOVIE2K.AG" default="true" />
-        <setting id="provider.movie4k" type="bool" label="MOVIE4K.TO" default="true" />
+        <setting id="provider.kino-cx" type="bool" label="KINO.CX" default="false" />
+        <setting id="provider.kinox" type="bool" label="KINOX.TO" default="true" />
+        <setting id="provider.movie2k-ag" type="bool" label="MOVIE2K.AG" default="false" />
+        <setting id="provider.movie4k" type="bool" label="MOVIE4K.TO" default="false" />
         <setting id="provider.moviedream" type="bool" label="MOVIEDREAM.WS" default="true" />
-        <setting id="provider.moviestream" type="bool" label="MOVIESTREAM.EU" default="true" />
-        <setting id="provider.serienstream" type="bool" label="SERIENSTREAM.TO" default="false" />
-        <setting id="provider.streamking" type="bool" label="STREAMKING.EU" default="true" />
+        <setting id="provider.moviestream" type="bool" label="MOVIESTREAM.EU" default="false" />
+        <setting id="provider.netzkino" type="bool" label="NETZKINO.DE" default="true" />
+        <setting id="provider.serienstream" type="bool" label="SERIENSTREAM.TO" default="true" />
+        <setting id="provider.streamking" type="bool" label="STREAMKING.EU" default="false" />
         <setting id="provider.streamworld" type="bool" label="STREAMWORLD.TO (ReCaptcha)" default="false" />
 		<setting id="provider.stream-to" type="bool" label="STREAM.TO (ReCaptcha)" default="false" />
     </category>
