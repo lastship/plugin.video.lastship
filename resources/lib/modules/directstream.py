@@ -22,15 +22,21 @@
 # Addon id: plugin.video.lastship
 # Addon Provider: LastShip
 
-import re, os, urllib, urlparse, json, binascii
+import re, os, json, binascii
 from resources.lib.modules import client
+
+try:
+    from urlparse import urlparse, parse_qsl, parse_qs
+    from urllib import unquote, urlencode
+except ImportError:
+    from urllib.parse import urlparse, parse_qsl, parse_qs, unquote, urlencode
 
 
 def google(url):
     try:
         if any(x in url for x in ['youtube.', 'docid=']): url = 'https://drive.google.com/file/d/%s/view' % re.compile('docid=([\w-]+)').findall(url)[0]
 
-        netloc = urlparse.urlparse(url.strip().lower()).netloc
+        netloc = urlparse(url.strip().lower()).netloc
         netloc = netloc.split('.google')[0]
 
         if netloc == 'docs' or netloc == 'drive':
@@ -54,17 +60,15 @@ def google(url):
             result = [i.split('|')[-1] for i in result.split(',')]
             result = sum([googletag(i, append_height=True) for i in result], [])
 
-
         elif netloc == 'photos':
             result = result.replace('\r', '').replace('\n', '').replace('\t', '')
             result = re.compile('"\d*/\d*x\d*.+?","(.+?)"').findall(result)[0]
 
             result = result.replace('\\u003d', '=').replace('\\u0026', '&')
             result = re.compile('url=(.+?)&').findall(result)
-            result = [urllib.unquote(i) for i in result]
+            result = [unquote(i) for i in result]
 
             result = sum([googletag(i, append_height=True) for i in result], [])
-
 
         elif netloc == 'picasaweb':
             id = re.compile('#(\d*)').findall(url)[0]
@@ -81,16 +85,15 @@ def google(url):
             result = [i['url'] for i in result if 'video' in i['type']]
             result = sum([googletag(i, append_height=True) for i in result], [])
 
-
         elif netloc == 'plus':
-            id = (urlparse.urlparse(url).path).split('/')[-1]
+            id = (urlparse(url).path).split('/')[-1]
 
             result = result.replace('\r', '').replace('\n', '').replace('\t', '')
             result = result.split('"%s"' % id)[-1].split(']]')[0]
 
             result = result.replace('\\u003d', '=').replace('\\u0026', '&')
             result = re.compile('url=(.+?)&').findall(result)
-            result = [urllib.unquote(i) for i in result]
+            result = [unquote(i) for i in result]
 
             result = sum([googletag(i, append_height=True) for i in result], [])
 
@@ -105,7 +108,7 @@ def google(url):
 
         for i in url:
             i.pop('height', None)
-            i.update({'url': i['url'] + '|%s' % urllib.urlencode(headers)})
+            i.update({'url': i['url'] + '|%s' % urlencode(headers)})
 
         if not url: return
         return url
@@ -152,10 +155,11 @@ def googletag(url, append_height=False):
     else:
         return []
 
+
 def googlepass(url):
     try:
         try:
-            headers = dict(urlparse.parse_qsl(url.rsplit('|', 1)[1]))
+            headers = dict(parse_qsl(url.rsplit('|', 1)[1]))
         except:
             headers = None
         url = url.split('|')[0].replace('\\', '')
@@ -164,7 +168,7 @@ def googlepass(url):
             url = url.replace('http://', 'https://')
         else:
             url = url.replace('https://', 'http://')
-        if headers: url += '|%s' % urllib.urlencode(headers)
+        if headers: url += '|%s' % urlencode(headers)
         return url
     except:
         return
@@ -172,7 +176,7 @@ def googlepass(url):
 
 def vk(url):
     try:
-        query = urlparse.parse_qs(urlparse.urlparse(url).query)
+        query = parse_qs(urlparse(url).query)
 
         try:
             oid, video_id = query['oid'][0], query['id'][0]
@@ -273,7 +277,7 @@ def yandex(url):
         idclient = binascii.b2a_hex(os.urandom(16))
 
         post = {'idClient': idclient, 'version': '3.9.2', 'sk': sk, '_model.0': 'do-get-resource-url', 'id.0': idstring}
-        post = urllib.urlencode(post)
+        post = urlencode(post)
 
         r = client.request('https://yadi.sk/models/?_m=do-get-resource-url', post=post, cookie=cookie)
         r = json.loads(r)
@@ -283,5 +287,3 @@ def yandex(url):
         return url
     except:
         return
-
-
