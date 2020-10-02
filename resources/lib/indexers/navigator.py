@@ -22,17 +22,18 @@
 # Addon id: plugin.video.lastship
 # Addon Provider: LastShip
 
-import os, base64, sys, urllib2
-import xbmc, xbmcaddon, xbmcgui
+import os, sys, xbmc, xbmcaddon, xbmcgui
 from resources.lib.modules import control
 from resources.lib.modules import trakt
 from resources.lib.modules import cache
+from resources.lib.modules.tools import cParser
 
-sysaddon = sys.argv[0];
-syshandle = int(sys.argv[1]);
+
+sysaddon = sys.argv[0]
+syshandle = int(sys.argv[1])
 control.moderator()
 
-artPath = control.artPath();
+artPath = control.artPath()
 addonFanart = control.addonFanart()
 
 imdbCredentials = False if control.setting('imdb.user') == '' else True
@@ -49,11 +50,11 @@ class navigator:
     HOMEPATH = xbmc.translatePath('special://home/')
     ADDONSPATH = os.path.join(HOMEPATH, 'addons')
     THISADDONPATH = os.path.join(ADDONSPATH, ADDON_ID)
-    NEWSFILE = base64.b64decode('aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2xhc3RzaGlwL3BsdWdpbi52aWRlby5sYXN0c2hpcC9uaWdodGx5L3doYXRzbmV3LnR4dA==')
+    NEWSFILE = cParser.B64decode('aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2xhc3RzaGlwL3BsdWdpbi52aWRlby5sYXN0c2hpcC9uaWdodGx5L3doYXRzbmV3LnR4dA==')
     LOCALNEWS = os.path.join(THISADDONPATH, 'whatsnew.txt')
 
     def root(self):
-        
+
         self.addDirectoryItem('[COLOR=lime]Infos und Updates[/COLOR]', 'newsNavigator', 'news_paper.png', 'DefaultAddonProgram.png')
         self.addDirectoryItem("Suche", 'searchNavigator', 'search.png', 'DefaultFolder.png', isFolder=not self.quickSearchActivated())
         self.addDirectoryItem("Filme", 'movieNavigator', 'movies.png', 'DefaultMovies.png')
@@ -72,9 +73,7 @@ class navigator:
 
         self.addDirectoryItem("Werkzeuge", 'toolNavigator', 'tools.png', 'DefaultAddonProgram.png')
 
-        downloads = True if control.setting('downloads') == 'true' and (
-                len(control.listDir(control.setting('movie.download.path'))[0]) > 0 or len(
-            control.listDir(control.setting('tv.download.path'))[0]) > 0) else False
+        downloads = True if control.setting('downloads') == 'true' and (len(control.listDir(control.setting('movie.download.path'))[0]) > 0 or len(control.listDir(control.setting('tv.download.path'))[0]) > 0) else False
         if downloads == True:
             self.addDirectoryItem("Downloads", 'downloadNavigator', 'downloads.png', 'DefaultFolder.png')
 
@@ -208,7 +207,7 @@ class navigator:
         if traktCredentials == False and imdbCredentials == True:
             self.addDirectoryItem("[B]IMDb[/B]-Merkliste", 'tvshows&url=imdbwatchlist', 'imdb.png', 'DefaultTVShows.png')
             self.addDirectoryItem("[B]IMDb[/B]-Merkliste", 'tvshows&url=imdbwatchlist2', 'imdb.png', 'DefaultTVShows.png')
-      
+
         if traktCredentials == True:
             self.addDirectoryItem("Empfohlen", 'tvshows&url=traktfeatured', 'trakt.png', 'DefaultTVShows.png')
         elif imdbCredentials == True:
