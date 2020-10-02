@@ -1,7 +1,6 @@
-# -*- coding: UTF-8 -*-
-
+# -*- coding: utf-8 -*-
 """
-    Lastship Add-on (C) 2019
+    Lastship Add-on (C) 2020
     Credits to Placenta and Covenant; our thanks go to their creators
 
     This program is free software: you can redistribute it and/or modify
@@ -22,24 +21,27 @@
 # Addon id: plugin.video.lastship
 # Addon Provider: LastShip
 
-import urlparse, urllib
-
 from resources.lib.modules import cache
 from resources.lib.modules import client
 from resources.lib.modules import cleantitle
 from resources.lib.modules import utils
+try:
+    from urlparse import urljoin
+    from urllib import urlencode
+except ImportError:
+    from urllib.parse import urlencode, urljoin
 
 
 def _getAniList(url):
     try:
-        url = urlparse.urljoin('https://anilist.co', '/api%s' % url)
+        url = urljoin('https://anilist.co', '/api%s' % url)
         return client.request(url, headers={'Authorization': '%s %s' % cache.get(_getToken, 1), 'Content-Type': 'application/x-www-form-urlencoded'})
     except:
         pass
 
 
 def _getToken():
-    result = urllib.urlencode({'grant_type': 'client_credentials', 'client_id': 'lastship-po0z6', 'client_secret': 'WHMhfUXcXb0q5iKjUIGssQu'})
+    result = urlencode({'grant_type': 'client_credentials', 'client_id': 'lastship-po0z6', 'client_secret': 'WHMhfUXcXb0q5iKjUIGssQu'})
     result = client.request('https://anilist.co/api/auth/access_token', post=result, headers={'Content-Type': 'application/x-www-form-urlencoded'}, error=True)
     result = utils.json_loads_as_str(result)
     return result['token_type'], result['access_token']
@@ -48,7 +50,6 @@ def _getToken():
 def getAlternativTitle(title):
     try:
         t = cleantitle.get(title)
-
         r = _getAniList('/anime/search/%s' % title)
         r = [(i.get('title_romaji'), i.get('synonyms', [])) for i in utils.json_loads_as_str(r) if cleantitle.get(i.get('title_english', '')) == t]
         r = [i[1][0] if i[0] == title and len(i[1]) > 0 else i[0] for i in r]
