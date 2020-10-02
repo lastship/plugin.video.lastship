@@ -1,7 +1,6 @@
 # -*- coding: UTF-8 -*-
-
 """
-    Lastship Add-on (C) 2019
+    Lastship Add-on (C) 2020
     Credits to Placenta and Covenant; our thanks go to their creators
 
     This program is free software: you can redistribute it and/or modify
@@ -24,7 +23,7 @@
 
 import time
 import datetime
-import cache
+from resources.lib.modules import cache
 import base64
 from resources.lib.modules import control
 
