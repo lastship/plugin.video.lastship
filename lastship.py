@@ -1,5 +1,4 @@
 # -*- coding: UTF-8 -*-
-
 """
     Lastship Add-on (C) 2019
     Credits to Placenta and Covenant; our thanks go to their creators
@@ -22,10 +21,15 @@
 # Addon id: plugin.video.lastship
 # Addon Provider: LastShip
 
-import urlparse,sys,urllib
+import sys
 from resources.lib.modules import control
+try:
+    from urllib import quote_plus
+    from urlparse import parse_qsl
+except ImportError:
+    from urllib.parse import quote_plus, parse_qsl
 
-params = dict(urlparse.parse_qsl(sys.argv[2].replace('?','')))
+params = dict(parse_qsl(sys.argv[2].replace('?', '')))
 
 action = params.get('action')
 
@@ -63,14 +67,14 @@ source = params.get('source')
 
 content = params.get('content')
 
-## Select_Fanart ##
-count_tmdb=params.get('count_tmdb')
-count_fanart=params.get('count_fanart')
-arttype=params.get('arttype')
-## Select_Fanart ##
+# Select_Fanart
+count_tmdb = params.get('count_tmdb')
+count_fanart = params.get('count_fanart')
+arttype = params.get('arttype')
+# Select_Fanart
 
 windowedtrailer = params.get('windowedtrailer')
-windowedtrailer = int(windowedtrailer) if windowedtrailer in ("0","1") else 0
+windowedtrailer = int(windowedtrailer) if windowedtrailer in ("0", "1") else 0
 
 if action == None:
     from resources.lib.indexers import navigator
@@ -139,10 +143,10 @@ elif action == 'toolNavigator':
     navigator.navigator().tools()
 
 
-## fanart select ##
+# fanart select
 elif action == 'select_fanart':
     from resources.lib.modules import control
-    control.select_fanart(arttype,imdb,count_tmdb,count_fanart)
+    control.select_fanart(arttype, imdb, count_tmdb, count_fanart)
 
 elif action == 'searchNavigator':
     from resources.lib.indexers import movies
@@ -245,7 +249,7 @@ elif action == 'movieAwards':
 elif action == 'movieCountryOfOrigin':
     from resources.lib.indexers import movies
     movies.movies().countryoforigin()
-    
+
 elif action == 'moviePersonalList':
     from resources.lib.indexers import movies
     movies.movies().personallist()
@@ -253,7 +257,7 @@ elif action == 'moviePersonalList':
 elif action == 'movieStudios':
     from resources.lib.indexers import movies
     movies.movies().studios()
-    
+
 elif action == 'movieYears':
     from resources.lib.indexers import movies
     movies.movies().years()
@@ -268,7 +272,7 @@ elif action == 'movieUserlists':
 
 elif action == 'moviePostloadAndPlay':
     from resources.lib.indexers import movies
-    movies.movies().LoadAndPlay(tmdb,meta)
+    movies.movies().LoadAndPlay(tmdb, meta)
 
 elif action == 'tvshows':
     from resources.lib.indexers import tvshows
@@ -395,16 +399,20 @@ elif action == 'authTrakt':
     trakt.authTrakt()
 
 elif action == 'urlResolver':
-    try: import urlresolver
-    except: pass
-    urlresolver.display_settings()
+    try:
+        import urlresolver
+        urlresolver.display_settings()
+    except:
+        pass
 
 elif action == 'download':
     from resources.lib.modules import downloader
     from resources.lib.modules import sources
     import json
-    try: downloader.download(name, image, sources.sources().sourcesResolve(json.loads(source)[0], True))
-    except: pass
+    try:
+        downloader.download(name, image, sources.sources().sourcesResolve(json.loads(source)[0], True))
+    except:
+        pass
 
 elif action == 'play':
     from resources.lib.modules import sources
@@ -439,39 +447,49 @@ elif action == 'random':
     if rtype == 'movie':
 
         rlist = movies.movies().get(url, create_directory=False)
-        r = sys.argv[0]+"?action=play"
+        r = sys.argv[0] + "?action=play"
     elif rtype == 'episode':
 
         rlist = episodes.episodes().get(tvshowtitle, year, imdb, tvdb, season, create_directory=False)
-        r = sys.argv[0]+"?action=play"
+        r = sys.argv[0] + "?action=play"
     elif rtype == 'season':
 
         rlist = episodes.seasons().get(tvshowtitle, year, imdb, tvdb, create_directory=False)
-        r = sys.argv[0]+"?action=random&rtype=episode"
+        r = sys.argv[0] + "?action=random&rtype=episode"
     elif rtype == 'show':
 
         rlist = tvshows.tvshows().get(url, create_directory=False)
-        r = sys.argv[0]+"?action=random&rtype=season"
+        r = sys.argv[0] + "?action=random&rtype=season"
 
     from random import randint
     import json
     try:
-        rand = randint(1,len(rlist))-1
-        for p in ['title','year','imdb','tvdb','season','episode','tvshowtitle','premiered','select']:
+        rand = randint(1, len(rlist)) - 1
+        for p in ['title', 'year', 'imdb', 'tvdb', 'season', 'episode', 'tvshowtitle', 'premiered', 'select']:
             if rtype == "show" and p == "tvshowtitle":
-                try: r += '&'+p+'='+urllib.quote_plus(rlist[rand]['title'])
-                except: pass
+                try:
+                    r += '&' + p + '=' + quote_plus(rlist[rand]['title'])
+                except:
+                    pass
             else:
-                try: r += '&'+p+'='+urllib.quote_plus(rlist[rand][p])
-                except: pass
-        try: r += '&meta='+urllib.quote_plus(json.dumps(rlist[rand]))
-        except: r += '&meta='+urllib.quote_plus("{}")
+                try:
+                    r += '&' + p + '=' + quote_plus(rlist[rand][p])
+                except:
+                    pass
+        try:
+            r += '&meta=' + quote_plus(json.dumps(rlist[rand]))
+        except:
+            r += '&meta=' + quote_plus("{}")
         if rtype == "movie":
-            try: control.infoDialog(rlist[rand]['title'], "Spiele", time=30000)
-            except: pass
+            try:
+                control.infoDialog(rlist[rand]['title'], "Spiele", time=30000)
+            except:
+                pass
         elif rtype == "episode":
-            try: control.infoDialog(rlist[rand]['tvshowtitle']+" - Season "+rlist[rand]['season']+" - "+rlist[rand]['title'], "Spiele", time=30000)
-            except: pass
+            try:
+                control.infoDialog(rlist[rand]['tvshowtitle'] + " - Season " + rlist[rand]['season'] + " - " + rlist[rand]['title'], "Spiele", time=30000)
+            except:
+                pass
         control.execute('RunPlugin(%s)' % r)
     except:
         control.infoDialog("Nichts gefunden zum Abspielen", time=8000)
@@ -516,4 +534,4 @@ elif action == 'showFaultyProvider':
     from resources.lib.modules import source_faultlog as faultlog
     from resources.lib.modules import control
     infoString = faultlog.getFaultInfoString()
-    control.dialog.ok("Faulty Providers",infoString)
+    control.dialog.ok("Faulty Providers", infoString)
