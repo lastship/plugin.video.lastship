@@ -1,7 +1,6 @@
 # -*- coding: UTF-8 -*-
-
 """
-    Lastship Add-on (C) 2019
+    Lastship Add-on (C) 2020
     Credits to Placenta and Covenant; our thanks go to their creators
     
     This program is free software: you can redistribute it and/or modify
@@ -22,7 +21,6 @@
 # Addon id: plugin.video.lastship
 # Addon Provider: LastShip
 
-
 from resources.lib.modules import trakt
 from resources.lib.modules import cleangenre
 from resources.lib.modules import control
@@ -33,12 +31,19 @@ from resources.lib.modules import workers
 from resources.lib.modules import views
 from resources.lib.modules import utils
 from resources.lib.indexers import navigator
-from resources.lib.modules import log_utils
+from resources.lib.modules.tools import logger
 from datetime import date, timedelta
+import os, sys, re, json, datetime
+try:
+    from urlparse import urlparse, parse_qsl, urlsplit
+    from urllib import quote_plus, urlencode
+except ImportError:
+    from urllib.parse import urlparse, parse_qsl, urlsplit
+    from urllib.parse import quote_plus, urlencode
 
-import os,sys,re,json,urllib,urlparse,datetime
+PY2 = sys.version_info[0] == 2
 
-params = dict(urlparse.parse_qsl(sys.argv[2].replace('?',''))) if len(sys.argv) > 1 else dict()
+params = dict(parse_qsl(sys.argv[2].replace('?',''))) if len(sys.argv) > 1 else dict()
 
 action = params.get('action')
 
@@ -84,16 +89,16 @@ class movies:
         self.boxoffice_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie,documentary&production_status=released&sort=boxoffice_gross_us,desc'
 
         if self.hidecinema == 'true':
-                delay = (date.today() - timedelta(90))
-                start_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie,documentary&release_date=,%s' % (delay)
-                self.popular_link = start_link + '&num_votes=1000,&production_status=released&groups=top_1000&adult=include'
-                self.views_link =  start_link + '&num_votes=1000,&production_status=released&sort=num_votes,desc&adult=include'
-                self.featured_link = start_link + '&production_status=released&adult=include'
-                self.countryoforigin_link = '&production_status=released&country_of_origin=%s&adult=include'
-                self.genre_link = start_link + '&producion_status=released&genres=%s&adult=include'
-                self.studio_link = start_link + '&companies=%s&adult=include'
-                self.certification_link = start_link + '&certificates=DE:%s&adult=include'
-                self.boxoffice_link = start_link + '&production_status=released&sort=boxoffice_gross_us&adult=include'
+            delay = (date.today() - timedelta(90))
+            start_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie,documentary&release_date=,%s' % (delay)
+            self.popular_link = start_link + '&num_votes=1000,&production_status=released&groups=top_1000&adult=include'
+            self.views_link =  start_link + '&num_votes=1000,&production_status=released&sort=num_votes,desc&adult=include'
+            self.featured_link = start_link + '&production_status=released&adult=include'
+            self.countryoforigin_link = '&production_status=released&country_of_origin=%s&adult=include'
+            self.genre_link = start_link + '&producion_status=released&genres=%s&adult=include'
+            self.studio_link = start_link + '&companies=%s&adult=include'
+            self.certification_link = start_link + '&certificates=DE:%s&adult=include'
+            self.boxoffice_link = start_link + '&production_status=released&sort=boxoffice_gross_us&adult=include'
         else:
             self.popular_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie,documentary&num_votes=1000,&groups=top_1000&adult=include'
             self.views_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie,documentary&num_votes=1000,&sort=num_votes,desc&adult=include'
@@ -138,7 +143,7 @@ class movies:
             try: url = getattr(self, url + '_link')
             except: pass
 
-            try: u = urlparse.urlparse(url).netloc.lower()
+            try: u = urlparse(url).netloc.lower()
             except: pass
 
 
@@ -178,7 +183,7 @@ class movies:
                 control.idle()
                 control.infoDialog("Nichts gefunden", time=8000)
             elif idx == True and create_directory == True:
-                    self.movieDirectory(self.list)
+                self.movieDirectory(self.list)
             return self.list
         except:
             pass
@@ -229,32 +234,32 @@ class movies:
         navigator.navigator().endDirectory()
 
     def search_new(self):
-            control.idle()
+        control.idle()
 
-            t = "Suche"
-            k = control.keyboard('', t) ; k.doModal()
-            q = k.getText() if k.isConfirmed() else None
+        t = "Suche"
+        k = control.keyboard('', t) ; k.doModal()
+        q = k.getText() if k.isConfirmed() else None
 
-            if (q == None or q == ''): return
+        if (q == None or q == ''): return
 
-            try: from sqlite3 import dbapi2 as database
-            except: from pysqlite2 import dbapi2 as database
-
-            dbcon = database.connect(control.searchFile)
-            dbcur = dbcon.cursor()
-            dbcur.execute("INSERT INTO movies VALUES (?,?)", (None,q.decode('utf-8')))
-            dbcon.commit()
-            dbcur.close()
-            url = self.search_link + urllib.quote_plus(q)
-            url = '%s?action=moviePage&url=%s' % (sys.argv[0], urllib.quote_plus(url))
-            control.execute('Container.Update(%s)' % url)
+        try: from sqlite3 import dbapi2 as database
+        except: from pysqlite2 import dbapi2 as database
+        if PY2:
+            q = q.decode('utf-8')
+        dbcon = database.connect(control.searchFile)
+        dbcur = dbcon.cursor()
+        dbcur.execute("INSERT INTO movies VALUES (?,?)", (None,q))
+        dbcon.commit()
+        dbcur.close()
+        url = self.search_link + quote_plus(q)
+        url = '%s?action=moviePage&url=%s' % (sys.argv[0], quote_plus(url))
+        control.execute('Container.Update(%s)' % url)
 
     def search_term(self, name):
-            control.idle()
-
-            url = self.search_link + urllib.quote_plus(name)
-            url = '%s?action=moviePage&url=%s' % (sys.argv[0], urllib.quote_plus(url))
-            control.execute('Container.Update(%s)' % url)
+        control.idle()
+        url = self.search_link + quote_plus(name)
+        url = '%s?action=moviePage&url=%s' % (sys.argv[0], quote_plus(url))
+        control.execute('Container.Update(%s)' % url)
 
     def person(self):
         try:
@@ -266,8 +271,8 @@ class movies:
 
             if (q == None or q == ''): return
 
-            url = self.persons_link + urllib.quote_plus(q)
-            url = '%s?action=moviePersons&url=%s' % (sys.argv[0], urllib.quote_plus(url))
+            url = self.persons_link + quote_plus(q)
+            url = '%s?action=moviePersons&url=%s' % (sys.argv[0], quote_plus(url))
             control.execute('Container.Update(%s)' % url)
         except:
             return
@@ -333,29 +338,15 @@ class movies:
             self.PersonalMovieListTitle3 = control.setting('PersonalMovieListTitle3')
             self.PersonalMovieListTitle4 = control.setting('PersonalMovieListTitle4')
             self.PersonalMovieListTitle5 = control.setting('PersonalMovieListTitle5')
+            personallists = [(self.PersonalMovieListTitle1, self.PersonalMovieList1), (self.PersonalMovieListTitle2, self.PersonalMovieList2), (self.PersonalMovieListTitle3, self.PersonalMovieList3), (self.PersonalMovieListTitle4, self.PersonalMovieList4), (self.PersonalMovieListTitle5, self.PersonalMovieList5)]
 
-            personallists = [
-            (self.PersonalMovieListTitle1, self.PersonalMovieList1),
-            (self.PersonalMovieListTitle2, self.PersonalMovieList2),
-            (self.PersonalMovieListTitle3, self.PersonalMovieList3),
-            (self.PersonalMovieListTitle4, self.PersonalMovieList4),
-            (self.PersonalMovieListTitle5, self.PersonalMovieList5)
-            ]
-
-        for i in personallists: self.list.append(
-        {
-            'name': str(i[0]),
-            'url': self.personallist_link % i[1],
-            'image': 'imdb.png',
-            'action': 'movies'
-        })
+        for i in personallists: self.list.append({'name': str(i[0]), 'url': self.personallist_link % i[1], 'image': 'imdb.png', 'action': 'movies' })
 
         self.addDirectory(self.list)
         return self.list
         
     def award(self):
             awards = [
-#             Folgende 2 Punkte werden nicht gefiltert!
             ('Meistbewertet', self.views_link, False, 'most-voted.png'),
             ('Aktive Betrachter', self.trending_link, False, 'people-watching.png'),
             ('Bestes Einspielergebnis', self.boxoffice_link, False, 'box-office.png'),
@@ -372,8 +363,8 @@ class movies:
             ('IMDB Top 250', 'top_250', True, 'featured.png'),
             ('IMDB Top 1000', 'top_1000', True, 'featured.png'),
             ('IMDB Bottom 250', 'bottom_250', True, 'featured.png'),
-            ('IMDB Bottom 1000', 'bottom_1000', True, 'featured.png')
-            ]
+            ('IMDB Bottom 1000', 'bottom_1000', True, 'featured.png')]
+
             for i in awards: self.list.append(
             {
                 'name': str(i[0]),
@@ -381,7 +372,7 @@ class movies:
                 'image': i[3],
                 'action': 'movies'
             })
-            
+
             self.addDirectory(self.list)
             return self.list
 
@@ -520,10 +511,10 @@ class movies:
     def trakt_list(self, url, user):
         from resources.lib.modules import client
         try:
-            q = dict(urlparse.parse_qsl(urlparse.urlsplit(url).query))
+            q = dict(parse_qsl(urlsplit(url).query))
             q.update({'extended': 'full'})
-            q = (urllib.urlencode(q)).replace('%2C', ',')
-            u = url.replace('?' + urlparse.urlparse(url).query, '') + '?' + q
+            q = (urlencode(q)).replace('%2C', ',')
+            u = url.replace('?' + urlparse(url).query, '') + '?' + q
 
             result = trakt.getTraktAsJson(u)
 
@@ -537,11 +528,11 @@ class movies:
             return
 
         try:
-            q = dict(urlparse.parse_qsl(urlparse.urlsplit(url).query))
+            q = dict(parse_qsl(urlsplit(url).query))
             if not int(q['limit']) == len(items): raise Exception()
             q.update({'page': str(int(q['page']) + 1)})
-            q = (urllib.urlencode(q)).replace('%2C', ',')
-            next = url.replace('?' + urlparse.urlparse(url).query, '') + '?' + q
+            q = (urlencode(q)).replace('%2C', ',')
+            next = url.replace('?' + urlparse(url).query, '') + '?' + q
             next = next.encode('utf-8')
         except:
             next = ''
@@ -557,7 +548,7 @@ class movies:
                 if int(year) > int((self.datetime).strftime('%Y')): raise Exception()
 
                 imdb = item['ids']['imdb']
-                log_utils.log('MovieShit - trakt_list - imdb: ' + str(imdb))
+                logger.info('MovieShit - trakt_list - imdb: ' + str(imdb))
                 if imdb == None or imdb == '': raise Exception()
                 imdb = 'tt' + re.sub('[^0-9]', '', str(imdb))
 
@@ -671,7 +662,7 @@ class movies:
                 next = zip(client.parseDOM(next, 'a', ret='href'), client.parseDOM(next, 'a'))
                 next = [i[0] for i in next if 'Next' in i[1]]
 
-            next = url.replace(urlparse.urlparse(url).query, urlparse.urlparse(next[0]).query)
+            next = url.replace(urlparse(url).query, urlparse(next[0]).query)
             next = client.replaceHTMLCodes(next)
             next = next.encode('utf-8')
         except:
@@ -1038,7 +1029,7 @@ class movies:
                 fanart2 = '0'
 
             item = {'title': title, 'originaltitle': originaltitle, 'year': year, 'imdb': imdb, 'tmdb': tmdb, 'poster': '0', 'poster2': poster2, 'poster3': poster3, 'banner': banner, 'fanart': fanart, 'fanart2': fanart2, 'clearlogo': clearlogo, 'clearart': clearart, 'premiered': premiered, 'genre': genre, 'duration': duration, 'rating': rating, 'votes': votes, 'mpaa': mpaa, 'director': director, 'writer': writer, 'cast': cast, 'plot': plot, 'tagline': tagline}
-            item = dict((k,v) for k, v in item.iteritems() if not v == '0')
+            item = dict((k,v) for k, v in item.items() if not v == '0')
             self.list[i].update(item)    
 
             if artmeta == False: raise Exception()
@@ -1087,14 +1078,14 @@ class movies:
             try:
                 label = '%s (%s)' % (i['title'], i['year'])
                 imdb, tmdb, title, year = i['imdb'], i['tmdb'], i['originaltitle'], i['year']
-                sysname = urllib.quote_plus('%s (%s)' % (title, year))
-                systitle = urllib.quote_plus(title)
+                sysname = quote_plus('%s (%s)' % (title, year))
+                systitle = quote_plus(title)
 
-                meta = dict((k,v) for k, v in i.iteritems() if not v == '0')
+                meta = dict((k,v) for k, v in i.items() if not v == '0')
                 meta.update({'code': imdb, 'imdbnumber': imdb, 'imdb_id': imdb})
                 meta.update({'tmdb_id': tmdb})
                 meta.update({'mediatype': 'movie'})
-                meta.update({'trailer': '%s?action=trailer&name=%s' % (sysaddon, urllib.quote_plus(label))})
+                meta.update({'trailer': '%s?action=trailer&name=%s' % (sysaddon, quote_plus(label))})
                 #meta.update({'trailer': 'plugin://script.extendedinfo/?info=playtrailer&&id=%s' % imdb})
                 if not 'duration' in i: meta.update({'duration': '120'})
                 elif i['duration'] == '0': meta.update({'duration': '120'})
@@ -1119,7 +1110,7 @@ class movies:
                 bg_count_fanart=len(background_fanart)
                 bg_count_tmdb=len(background_tmdb)
 
-                for key, value in posterdb.iteritems():
+                for key, value in posterdb.items():
                     if key=='tmdb':                        
                         poster=poster_tmdb[int(posterdb['tmdb'])]
 
@@ -1127,7 +1118,7 @@ class movies:
                         poster=poster_fanart[int(posterdb['fanart'])]
                     
                 
-                for key, value in backgroundb.iteritems():
+                for key, value in backgroundb.items():
                     if key=='tmdb':                        
                         background=background_tmdb[int(backgroundb['tmdb'])]
 
@@ -1143,10 +1134,10 @@ class movies:
 
                 meta.update({'poster': poster})
 
-                sysmeta = urllib.quote_plus(json.dumps(meta))
+                sysmeta = quote_plus(json.dumps(meta))
 
                 url = '%s?action=play&title=%s&year=%s&imdb=%s&meta=%s&t=%s' % (sysaddon, systitle, year, imdb, sysmeta, self.systime)
-                sysurl = urllib.quote_plus(url)
+                sysurl = quote_plus(url)
 
                 cm = []
 
@@ -1238,7 +1229,7 @@ class movies:
             if url == '': raise Exception()
 
             icon = control.addonNext()
-            url = '%s?action=moviePage&url=%s' % (sysaddon, urllib.quote_plus(url))
+            url = '%s?action=moviePage&url=%s' % (sysaddon, quote_plus(url))
 
             item = control.item(label=nextMenu)
 
@@ -1279,17 +1270,17 @@ class movies:
                 else: thumb = addonThumb
 
                 url = '%s?action=%s' % (sysaddon, i['action'])
-                try: url += '&url=%s' % urllib.quote_plus(i['url'])
+                try: url += '&url=%s' % quote_plus(i['url'])
                 except: pass
 
                 cm = []
                 
-                cm.append((playRandom, 'RunPlugin(%s?action=random&rtype=movie&url=%s)' % (sysaddon, urllib.quote_plus(i['url']))))
+                cm.append((playRandom, 'RunPlugin(%s?action=random&rtype=movie&url=%s)' % (sysaddon, quote_plus(i['url']))))
 
                 if queue == True:
                     cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))
 
-                try: cm.append((addToLibrary, 'RunPlugin(%s?action=moviesToLibrary&url=%s)' % (sysaddon, urllib.quote_plus(i['context']))))
+                try: cm.append((addToLibrary, 'RunPlugin(%s?action=moviesToLibrary&url=%s)' % (sysaddon, quote_plus(i['context']))))
                 except: pass
 
                 item = control.item(label=name)
