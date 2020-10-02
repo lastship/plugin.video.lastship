@@ -1,7 +1,6 @@
 # -*- coding: UTF-8 -*-
-
 """
-    Lastship Add-on (C) 2019
+    Lastship Add-on (C) 2020
     Credits to Placenta and Covenant; our thanks go to their creators
 
     This program is free software: you can redistribute it and/or modify
@@ -23,10 +22,14 @@
 # Addon Provider: LastShip
 
 import re
-import urlparse
-
 from resources.lib.modules import dom_parser
 from resources.lib.modules import client
+from resources.lib.parser import cParser
+try:
+    from urlparse import urljoin
+except ImportError:
+    from urllib.parse import urljoin
+
 
 def getPlaylistLinks(url):
     hdgoContent = client.request(url)
@@ -36,13 +39,14 @@ def getPlaylistLinks(url):
         playListContent = client.request('http:' + playlistLink)
         links = re.findall('\[(".*?)\]', playListContent, re.DOTALL)
         links = links[0].split(',')
-        links = [i.replace('"', '').replace('\r\n','').replace('/?ref=hdgo.cc', '') for i in links]
-        return [urlparse.urljoin('http://hdgo.cc', i) for i in links]
+        links = [i.replace('"', '').replace('\r\n', '').replace('/?ref=hdgo.cc', '') for i in links]
+        return [urljoin('http://hdgo.cc', i) for i in links]
     return
+
 
 def getStreams(url, sources, quality, skiplast=True, quali="HD"):
     if quality is not None:
-        quali=quality
+        quali = quality
     if 'hdgo' in url:
         hdgostreams = getHDGOStreams(url)
         if hdgostreams is not None:
@@ -84,12 +88,13 @@ def getHDGOStreams(url):
     try:
         request = client.request(url, referer=url)
         request = dom_parser.parse_dom(request, 'iframe')[0].attrs['src']
-        request = client.request(urlparse.urljoin('http://', request), referer=url)
+        request = client.request(urljoin('http://', request), referer=url)
         request = re.findall("media:\s(\[.*?\])", request, re.DOTALL)[0]
         request = re.findall("'(.*?\')", request)
         return ["https:" + i.replace("'", "") for i in request if i[:2] == "//"]
     except:
         return None
+
 
 def getViotreams(url):
     try:
@@ -99,6 +104,7 @@ def getViotreams(url):
     except:
         return None
 
+
 def getstreamzStreams(url):
     try:
         request = client.request(url, referer=url)
@@ -107,10 +113,11 @@ def getstreamzStreams(url):
     except:
         return None
 
+
 def getvivo_php_Streams(url):
     try:
         request = client.request(url, referer=url)
         request = re.findall(r'<video\s*id="player"[^>]+data-stream="([^"]+)', request)
-        return request[0].decode('base64')
+        return cParser.B64decode(request[0])
     except:
         return None
