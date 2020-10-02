@@ -1,7 +1,6 @@
 # -*- coding: UTF-8 -*-
-
 """
-    Lastship Add-on (C) 2019
+    Lastship Add-on (C) 2020
     Credits to Placenta and Covenant; our thanks go to their creators
 
     This program is free software: you can redistribute it and/or modify
@@ -22,28 +21,30 @@
 # Addon id: plugin.video.lastship
 # Addon Provider: LastShip
 
-
 import json
 import re
 import time
-import urllib
-import urlparse
-
 from resources.lib.modules import cache
 from resources.lib.modules import cleandate
 from resources.lib.modules import control
-from resources.lib.modules import log_utils
+from resources.lib.modules.tools import logger
 from resources.lib.modules import utils
+try:
+    from urlparse import urljoin
+    from urllib import quote_plus
+except ImportError:
+    from urllib.parse import urljoin, quote_plus
 
 BASE_URL = 'https://api.trakt.tv'
 V2_API_KEY = '1fc908710290411aa48d6cb599ef13f72c25c8c4c86c99d8d2cc3d8983fc4235'
 CLIENT_SECRET = '0a361de39a8e9038da91971c23b69fa2860d6f14d8a2f4d57522889c05a1e5f1'
 REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob'
 
+
 def __getTrakt(url, post=None):
     from resources.lib.modules import client
     try:
-        url = urlparse.urljoin(BASE_URL, url)
+        url = urljoin(BASE_URL, url)
         post = json.dumps(post) if post else None
         headers = {'Content-Type': 'application/json', 'trakt-api-key': V2_API_KEY, 'trakt-api-version': 2}
 
@@ -57,19 +58,19 @@ def __getTrakt(url, post=None):
         result = result[0]
 
         if resp_code in ['500', '502', '503', '504', '520', '521', '522', '524']:
-            log_utils.log('Temporary Trakt Error: %s' % resp_code, log_utils.LOGWARNING)
+            logger.error('Temporary Trakt Error: %s' % resp_code)
             return
         elif resp_code in ['404']:
-            log_utils.log('Object Not Found : %s' % resp_code, log_utils.LOGWARNING)
+            logger.error('Object Not Found : %s' % resp_code)
             return
         elif resp_code in ['429']:
-            log_utils.log('Trakt Rate Limit Reached: %s' % resp_code, log_utils.LOGWARNING)
+            logger.error('Trakt Rate Limit Reached: %s' % resp_code)
             return
 
         if resp_code not in ['401', '405']:
             return result, resp_header
 
-        oauth = urlparse.urljoin(BASE_URL, '/oauth/token')
+        oauth = urljoin(BASE_URL, '/oauth/token')
         opost = {'client_id': V2_API_KEY, 'client_secret': CLIENT_SECRET, 'redirect_uri': REDIRECT_URI, 'grant_type': 'refresh_token', 'refresh_token': control.setting('trakt.refresh')}
 
         result = client.request(oauth, post=json.dumps(opost), headers=headers)
@@ -85,8 +86,9 @@ def __getTrakt(url, post=None):
         result = client.request(url, post=post, headers=headers, output='extended', error=True)
         return result[0], result[2]
     except Exception as e:
-        log_utils.log('Unknown Trakt Error: %s' % e, log_utils.LOGWARNING)
+        logger.error('Unknown Trakt Error: %s' % e)
         pass
+
 
 def getTraktAsJson(url, post=None):
     try:
@@ -97,6 +99,7 @@ def getTraktAsJson(url, post=None):
         return r
     except:
         pass
+
 
 def authTrakt():
     from resources.lib.modules import client
@@ -132,17 +135,13 @@ def authTrakt():
         except: pass
 
         token, refresh = r['access_token'], r['refresh_token']
-
         headers = {'Content-Type': 'application/json', 'trakt-api-key': V2_API_KEY, 'trakt-api-version': 2, 'Authorization': 'Bearer %s' % token}
-
-
-        result = client.request(urlparse.urljoin(BASE_URL, '/users/me'), headers=headers)
+        result = client.request(urljoin(BASE_URL, '/users/me'), headers=headers)
         result = utils.json_loads_as_str(result)
-
         user = result['username']
 
         control.setSetting(id='trakt.user', value=user)
-        control.setSetting(id='trakt.user2', value=user) #Notwendig für korrekte settings.xml
+        control.setSetting(id='trakt.user2', value=user)  # Notwendig für korrekte settings.xml
         control.setSetting(id='trakt.token', value=token)
         control.setSetting(id='trakt.refresh', value=refresh)
         raise Exception()
@@ -198,7 +197,7 @@ def manager(name, imdb, tvdb, content):
 
         result = getTraktAsJson('/users/me/lists')
         lists = [(i['name'], i['ids']['slug']) for i in result]
-        lists = [lists[i//2] for i in range(len(lists)*2)]
+        lists = [lists[i // 2] for i in range(len(lists) * 2)]
         for i in range(0, len(lists), 2):
             lists[i] = (("Zu [B]%s[/B] hinzufügen" % lists[i][0]), '/users/me/lists/%s/items' % lists[i][1])
         for i in range(1, len(lists), 2):
@@ -211,7 +210,8 @@ def manager(name, imdb, tvdb, content):
             return
         elif select == 4:
             t = "Zu [B]neuer Liste[/B] hinzufügen"
-            k = control.keyboard('', t) ; k.doModal()
+            k = control.keyboard('', t)
+            k.doModal()
             new = k.getText() if k.isConfirmed() else None
             if (new == None or new == ''): return
             result = __getTrakt('/users/me/lists', post={"name": new, "privacy": "private"})[0]
@@ -258,6 +258,7 @@ def sort_list(sort_key, sort_direction, list_data):
     else:
         return list_data
 
+
 def _released_key(item):
     if 'released' in item:
         return item['released']
@@ -265,6 +266,7 @@ def _released_key(item):
         return item['first_aired']
     else:
         return 0
+
 
 def getActivity():
     try:
@@ -442,31 +444,35 @@ def getPeople(id, content_type, full=True):
     except:
         return
 
+
 def SearchAll(title, year, full=True):
     try:
         return SearchMovie(title, year, full) + SearchTVShow(title, year, full)
     except:
         return
 
+
 def SearchMovie(title, year, full=True):
     try:
-        url = '/search/movie?query=%s' % urllib.quote_plus(title)
+        url = '/search/movie?query=%s' % quote_plus(title)
 
         if year: url += '&year=%s' % year
         if full: url += '&extended=full'
         return getTraktAsJson(url)
     except:
         return
+
 
 def SearchTVShow(title, year, full=True):
     try:
-        url = '/search/show?query=%s' % urllib.quote_plus(title)
+        url = '/search/show?query=%s' % quote_plus(title)
 
         if year: url += '&year=%s' % year
         if full: url += '&extended=full'
         return getTraktAsJson(url)
     except:
         return
+
 
 def IdLookup(content, type, type_id):
     try:
@@ -474,6 +480,7 @@ def IdLookup(content, type, type_id):
         return r[0].get(content, {}).get('ids', [])
     except:
         return {}
+
 
 def getGenre(content, type, type_id):
     try:
