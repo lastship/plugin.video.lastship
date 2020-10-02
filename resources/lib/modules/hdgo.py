@@ -24,7 +24,7 @@
 import re
 from resources.lib.modules import dom_parser
 from resources.lib.modules import client
-from resources.lib.parser import cParser
+from resources.lib.modules.tools import cParser
 try:
     from urlparse import urljoin
 except ImportError:
