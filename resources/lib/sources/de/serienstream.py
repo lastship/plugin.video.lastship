@@ -35,8 +35,8 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['de']
-        self.domains = ['serienstream.sx']
-        self.base_link = 'https://serienstream.sx'
+        self.domains = ['serien.sx']
+        self.base_link = 'https://Serien.sx'
         self.search_link = '/serien'
         self.login = control.setting('serienstream.user')
         self.password = control.setting('serienstream.pass')
