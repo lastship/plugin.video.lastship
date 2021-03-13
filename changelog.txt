@@ -7,7 +7,7 @@
 - serienstream (Domain Update)
 
 [B]4.1.0[/B]
-  21.09.2020
+  02.10.2020
   Update:
 - trakt.py
 - sources
