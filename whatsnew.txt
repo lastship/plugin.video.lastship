@@ -15,7 +15,9 @@ Verwendung NUR mit Kod18 möglich, NICHT mit Kodi19 (hier müsste der ganze Code
 
 Lastship hat nicht mehr die Stärke welche Ihr gewohnt seid und einiges funktioniert leider
 nicht wie gewünscht. Ebenso sind einige Indexseiten ohne Funktion
-Da wir zur Zeit kein Entwickler Team haben könnte das auch noch länger so bleiben
+Da wir zur Zeit kein Entwickler Team haben könnte das leider auc so bleiben
+
+[B]!!Lastship ist nicht Python3 tauglich und läuft daher NICHT auf Kodi19!![/B]
 
 Wir suchen daher Python Entwickler die am Project mitwirken wollen, diese sollen sich im Chat melden
 https://gitter.im/Lastship_Chat/Lobby
@@ -25,6 +27,11 @@ https://gitter.im/Lastship_Chat/Lobby
 [COLOR orange]_________________________________________________________________________[/COLOR]
 
 [B][COLOR lime]Changelog:[/COLOR][/B]
+
+[B]4.0.7.2[/B] 
+  13.03.2021
+  Upate:
+- serienstream (Domain Update)
 
 [B]4.0.7.1[/B]
   21.09.2020
