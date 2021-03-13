@@ -1,7 +1,7 @@
 [B][COLOR yellow]Info:[/COLOR][/B]
 Bei Problemen hilft es oft die Caches (Lastship und Kodi) zu löschen
 
-Verwendung NUR mit Kod18 möglich, NICHT mit Kodi19 (hier müsste der ganze Code angepasst werden)
+[B]Verwendung NUR mit Kod18 möglich, NICHT mit Kodi19 (hier müsste der ganze Code angepasst werden)[/B]
 
 [B][COLOR blue]Allgemein:[/COLOR][/B]
 - Für die Seite Serienstream.to (s.to) ist ein Benutzerkonto erforderlich
@@ -17,8 +17,6 @@ Lastship hat nicht mehr die Stärke welche Ihr gewohnt seid und einiges funktion
 nicht wie gewünscht. Ebenso sind einige Indexseiten ohne Funktion
 Da wir zur Zeit kein Entwickler Team haben könnte das leider auc so bleiben
 
-[B]!!Lastship ist nicht Python3 tauglich und läuft daher NICHT auf Kodi19!![/B]
-
 Wir suchen daher Python Entwickler die am Project mitwirken wollen, diese sollen sich im Chat melden
 https://gitter.im/Lastship_Chat/Lobby
 
@@ -28,10 +26,39 @@ https://gitter.im/Lastship_Chat/Lobby
 
 [B][COLOR lime]Changelog:[/COLOR][/B]
 
-[B]4.0.7.2[/B] 
+[B]4.0.1.1[/B] 
   13.03.2021
   Upate:
 - serienstream (Domain Update)
+
+[B]4.1.0[/B]
+  21.09.2020
+  Update:
+- trakt.py
+- sources
+- source_utils.py
+- source_faultlog
+- navigator
+- movies.py
+- libtools.py
+- directstream
+- debrid.py
+- control.py
+- common.py
+- _init_.py
+- settings.xml
+- tvmaze.py
+- service.py
+- RequestHandler
+- lastship.py
+- py23
+
+- Indexseiten
+  - hdgo
+  - kinox
+
+  Neu:
+- tools.py
 
 [B]4.0.7.1[/B]
   21.09.2020
