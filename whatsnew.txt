@@ -26,6 +26,11 @@ https://gitter.im/Lastship_Chat/Lobby
 
 [B][COLOR lime]Changelog:[/COLOR][/B]
 
+[B]4.1.2[/B] 
+  10.04.2021
+  Upate:
+- serienstream (Domain Update)
+
 [B]4.0.1.1[/B] 
   13.03.2021
   Upate:
